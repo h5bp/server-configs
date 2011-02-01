@@ -1,0 +1,51 @@
+# boilerplate server config for google app engine
+# from darktable aka Calvin Rein
+# http://forrst.com/posts/Host_a_Static_HTML_Site_on_Google_App_Engine-BlA
+
+application: your-app-name-here
+version: 1 
+runtime: python
+api_version: 1
+
+default_expiration: "30d"
+
+handlers:
+- url: /apple-touch-icon\.png
+  mime_type: image/png
+  static_files: static/img/logo.png
+  upload: static/img/logo.png
+
+- url: /favicon\.ico
+  mime_type: image/png
+  static_files: static/img/sm_logo.png
+  upload: static/img/sm_logo.png
+
+- url: /(robots\.txt|crossdomain\.xml)
+  static_files: static/\1
+  upload: static/(robots\.txt|crossdomain\.xml)
+
+- url: /img/(.*\.(gif|png|jpg))
+  static_files: static/img/\1
+  upload: static/img/(.*\.(gif|png|jpg))
+  
+- url: /swf/(.*\.swf)
+  static_files: static/swf/\1
+  upload: static/swf/(.*\.swf)
+
+- url: /css/(.*\.css)
+  mime_type: text/css
+  static_files: static/css/\1
+  upload: static/css/(.*\.css)
+
+- url: /js/(.*\.js)
+  mime_type: text/javascript
+  static_files: static/js/\1
+  upload: static/js/(.*\.js)
+
+- url: /(.*\.html)
+  mime_type: text/html
+  static_files: static/\1
+  upload: static/(.*\.html)
+
+- url: /.*
+  script: gae.py
