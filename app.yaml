@@ -12,13 +12,13 @@ default_expiration: "30d"
 handlers:
 - url: /apple-touch-icon\.png
   mime_type: image/png
-  static_files: static/img/logo.png
-  upload: static/img/logo.png
+  static_files: static/apple-touch-icon.png
+  upload: static/apple-touch-icon.png
 
 - url: /favicon\.ico
   mime_type: image/png
-  static_files: static/img/sm_logo.png
-  upload: static/img/sm_logo.png
+  static_files: static/favicon.ico
+  upload: static/favicon.ico
 
 - url: /(robots\.txt|humans\.txt|crossdomain\.xml)
   static_files: static/\1
