@@ -3,7 +3,7 @@ from google.appengine.ext.webapp import util
 
 class IndexHandler(webapp.RequestHandler):
     def get(self):
-        if self.request.url.ends('/'):
+        if self.request.url.endswith('/'):
             path = '%sindex.html'%self.request.url
         else:
             path = '%s/index.html'%self.request.url
