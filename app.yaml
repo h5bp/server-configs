@@ -9,6 +9,19 @@ api_version: 1
 
 default_expiration: "30d"
 
+skip_files:
+- ^(.*/)?app\.yaml
+- ^(.*/)?app\.yml
+- ^(.*/)?index\.yaml
+- ^(.*/)?index\.yml
+- ^(.*/)?#.*#
+- ^(.*/)?.*~
+- ^(.*/)?.*\.py[co]
+- ^(.*/)?.*/RCS/.*
+- ^(.*/)?\..*
+- ^(.*/)?.git$
+- ^(.*/)?tests$
+
 handlers:
 - url: /apple-touch-icon\.png
   mime_type: image/png
