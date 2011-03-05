@@ -64,9 +64,7 @@ var routes = function (app) {
       // to save header bytes serve it only to IE
       if (req.headers.user-agent.indexOf('MSIE') && 
          reqPath.match(/\.html$/) || reqPath.match(/\.htm$/))
-         res.writeHead({
-            'X-UA-Compatible': "IE=Edge,chrome=1"
-         });
+         res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
 
       // protect .files
       if (reqPath.match(/(^|\/)\./))
