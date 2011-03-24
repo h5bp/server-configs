@@ -109,7 +109,7 @@ var server = connect.createServer(
 );
 
 // bind the server to a port, choose your port:
-server.listen(8080); // 80 is the default web port and 443 for TLS
+server.listen(80); // 80 is the default web port and 443 for TLS
 
 // Your server is running :-)
 console.log('Node server is running!');
