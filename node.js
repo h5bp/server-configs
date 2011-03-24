@@ -15,6 +15,7 @@
 // add some mime-types
 // mime already defines some for us, soon they'll support all
 var mime = require('mime');
+
 // define early so that connect sees them
 mime.define({
    'application/x-font-woff': ['woff'],
@@ -30,7 +31,7 @@ mime.define({
 var connect = require('connect'),
    // inspect tool, I use it all the time.
    inspect = require('util').inspect;
-   // uncomment this if you plan on concatena files
+   // uncomment this if you plan on concatenate files
    // var fs = require('fs');
 
    // concatenate files, ahead of server start for better performance
@@ -64,7 +65,9 @@ var routes = function (app) {
 
       // use this header for html files, or add it as a meta tag
       // to save header bytes serve it only to IE
-      if (req.headers['user-agent'].indexOf('MSIE') && 
+      // user agent is not always there
+      var userAgent = req.headers['user-agent'];
+      if (userAgent && userAgent.indexOf('MSIE') && 
          reqPath.match(/\.html$/) || reqPath.match(/\.htm$/))
          res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
 
@@ -114,3 +117,9 @@ server.listen(80); // 80 is the default web port and 443 for TLS
 // Your server is running :-)
 console.log('Node server is running!');
 
+// this is a failsafe, it will catch the error silently and logged it the console
+// while this works, you should really try to catch the errors with a try/catch block
+// more on this here: http://nodejs.org/docs/v0.4.3/api/process.html#event_uncaughtException_
+process.on('uncaughtException', function (err) {
+   console.log('Caught exception: ' + err);
+});
