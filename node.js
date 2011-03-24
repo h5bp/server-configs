@@ -30,6 +30,8 @@ mime.define({
 var connect = require('connect'),
    // inspect tool, I use it all the time.
    inspect = require('util').inspect;
+   // uncomment this if you plan on concatena files
+   // var fs = require('fs');
 
    // concatenate files, ahead of server start for better performance
    // for high concurrency servers this step's callback must init the
@@ -57,12 +59,12 @@ var routes = function (app) {
 
 
    // this must be the last route, its an addition to the static provider
-   app.get(':reqPath', function (req, res, next) {
-      var reqPath = req.params.reqPath; // connect populates this
+   app.get('*', function (req, res, next) {
+      var reqPath = req.url; // connect populates this
 
       // use this header for html files, or add it as a meta tag
       // to save header bytes serve it only to IE
-      if (req.headers.user-agent.indexOf('MSIE') && 
+      if (req.headers['user-agent'].indexOf('MSIE') && 
          reqPath.match(/\.html$/) || reqPath.match(/\.htm$/))
          res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
 
@@ -107,7 +109,7 @@ var server = connect.createServer(
 );
 
 // bind the server to a port, choose your port:
-server.listen(80); // 80 is the default web port and 443 for TLS
+server.listen(8080); // 80 is the default web port and 443 for TLS
 
 // Your server is running :-)
 console.log('Node server is running!');
