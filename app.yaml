@@ -1,5 +1,5 @@
 # boilerplate server config for google app engine
-# from darktable aka Calvin Rein
+# from darktable aka Calvin Rien
 # http://forrst.com/posts/Host_a_Static_HTML_Site_on_Google_App_Engine-BlA
 # 
 # Note: file names are case-sensitive and spaces in paths is not supported.
@@ -181,7 +181,7 @@ handlers:
   upload: static/(.*\.xpi)
 
 # image files
-- url: /(.*\.(bmp|gif|ico|jpeg|jpg|png))
+- url: /(.*\.(bmp|gif|jpeg|jpg|png))
   static_files: static/\1
   upload: static/(.*\.(bmp|gif|jpeg|jpg|png))
 
