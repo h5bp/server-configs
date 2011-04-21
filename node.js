@@ -15,6 +15,7 @@
 // add some mime-types
 // mime already defines some for us, soon they'll support all
 var mime = require('mime');
+
 // define early so that connect sees them
 mime.define({
    'application/x-font-woff': ['woff'],
@@ -30,6 +31,8 @@ mime.define({
 var connect = require('connect'),
    // inspect tool, I use it all the time.
    inspect = require('util').inspect;
+   // uncomment this if you plan on concatenate files
+   // var fs = require('fs');
 
    // concatenate files, ahead of server start for better performance
    // for high concurrency servers this step's callback must init the
@@ -57,12 +60,14 @@ var routes = function (app) {
 
 
    // this must be the last route, its an addition to the static provider
-   app.get(':reqPath', function (req, res, next) {
-      var reqPath = req.params.reqPath; // connect populates this
+   app.get('*', function (req, res, next) {
+      var reqPath = req.url; // connect populates this
 
       // use this header for html files, or add it as a meta tag
       // to save header bytes serve it only to IE
-      if (req.headers.user-agent.indexOf('MSIE') && 
+      // user agent is not always there
+      var userAgent = req.headers['user-agent'];
+      if (userAgent && userAgent.indexOf('MSIE') && 
          reqPath.match(/\.html$/) || reqPath.match(/\.htm$/))
          res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
 
@@ -79,7 +84,7 @@ var routes = function (app) {
       // disallow other domains.
       // you can get really specific by adding the file
       // type extensions you want to allow to the if statement
-      if (reqHost.indexOf(hostAddress) === -1)
+      if (reqHost && reqHost.indexOf(hostAddress) === -1)
          res.end("Cross-domain is not allowed");
 
       next(); // let the static server do the rest
@@ -107,8 +112,14 @@ var server = connect.createServer(
 );
 
 // bind the server to a port, choose your port:
-server.listen(80); // 80 is the default web port and 443 for TLS
+server.listen(8080); // 80 is the default web port and 443 for TLS
 
 // Your server is running :-)
 console.log('Node server is running!');
 
+// this is a failsafe, it will catch the error silently and logged it the console
+// while this works, you should really try to catch the errors with a try/catch block
+// more on this here: http://nodejs.org/docs/v0.4.3/api/process.html#event_uncaughtException_
+process.on('uncaughtException', function (err) {
+   console.log('Caught exception: ' + err);
+});
