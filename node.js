@@ -84,7 +84,7 @@ var routes = function (app) {
       // disallow other domains.
       // you can get really specific by adding the file
       // type extensions you want to allow to the if statement
-      if (reqHost && reqHost.indexOf(hostAddress) === -1)
+      if (reqHost.indexOf(hostAddress) === -1)
          res.end("Cross-domain is not allowed");
 
       next(); // let the static server do the rest
@@ -112,7 +112,7 @@ var server = connect.createServer(
 );
 
 // bind the server to a port, choose your port:
-server.listen(8080); // 80 is the default web port and 443 for TLS
+server.listen(80); // 80 is the default web port and 443 for TLS
 
 // Your server is running :-)
 console.log('Node server is running!');
