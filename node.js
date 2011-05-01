@@ -23,7 +23,8 @@ mime.define({
    'image/webp': ['webp'],
    'text/cache-manifest': ['manifest'],
    'text/x-component': ['htc'],
-   'application/x-chrome-extension': ['crx']
+   'application/x-chrome-extension': ['crx'],
+   'image/svg+xml': ['svg', 'svgz']
 });
 
 // make sure you install Connect (npm install connect)
@@ -31,23 +32,25 @@ mime.define({
 var connect = require('connect'),
    // inspect tool, I use it all the time.
    inspect = require('util').inspect;
-   // uncomment this if you plan on concatenate files
-   // var fs = require('fs');
 
-   // concatenate files, ahead of server start for better performance
-   // for high concurrency servers this step's callback must init the
-   // server or the files being requested might not be ready.
-   // read and merge jquery and js/script.js
-   /*
-   fs.readFile(__dirname+'/js/libs/jquery-1.5.js', 'utf8', function (err, jquery) {
-      fs.readFile(__dirname+'/js/script.js', 'utf8', function (err, script.js) {
-         fs.writeFile(__dirname+'/js/bundle.js', jquery + script, 'utf8', function (err) {
-            if (err) throw err;
-            // file is written
-         });
+
+// uncomment this if you plan on concatenate files
+// var fs = require('fs');
+
+// concatenate files, ahead of server start for better performance
+// for high concurrency servers this step's callback must init the
+// server or the files being requested might not be ready.
+// read and merge jquery and js/script.js
+/*
+fs.readFile(__dirname+'/js/libs/jquery-1.5.js', 'utf8', function (err, jquery) {
+   fs.readFile(__dirname+'/js/script.js', 'utf8', function (err, script.js) {
+      fs.writeFile(__dirname+'/js/bundle.js', jquery + script, 'utf8', function (err) {
+         if (err) throw err;
+         // file is written
       });
    });
-   */
+});
+*/
 
 
 var routes = function (app) {
@@ -84,7 +87,7 @@ var routes = function (app) {
       // disallow other domains.
       // you can get really specific by adding the file
       // type extensions you want to allow to the if statement
-      if (reqHost.indexOf(hostAddress) === -1)
+      if (reqHost && reqHost.indexOf(hostAddress) === -1)
          res.end("Cross-domain is not allowed");
 
       next(); // let the static server do the rest
@@ -100,7 +103,7 @@ var server = connect.createServer(
    // good ol'apache like logging
    // you can customize how the log looks: 
    // http://senchalabs.github.com/connect/middleware-logger.html
-   connect.logger(),
+   connect.logger(":date -!- :remote-addr - :method :url :status -!- :user-agent"),
 
    // call to trigger routes
    connect.router(routes),
@@ -112,7 +115,7 @@ var server = connect.createServer(
 );
 
 // bind the server to a port, choose your port:
-server.listen(80); // 80 is the default web port and 443 for TLS
+server.listen(8080); // 80 is the default web port and 443 for TLS
 
 // Your server is running :-)
 console.log('Node server is running!');
