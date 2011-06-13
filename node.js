@@ -1,31 +1,12 @@
 // author: Sean Caetano Martin (xonecas)
 // 
-// Rob Righter https://github.com/robrighter/node-boilerplate
-// made a node boilerplate, but I find that it does too much
-// I like making my own routes, and organize them as I see fit
-// this applies for server errors and 404's
-// So I made this, a more compact boiler, that will serve static
+// A boiler inspired by apache's .htaccess, that will serve static
 // files off the shelf (just in case you want to get going quick)
-// Everything else is for you to decide
+// Everything else is for you to decide.
 //
 // I will keep this up to date with current node and connect versions
-// any issues please file a issue
-//
+// any issues please file a issue :-)
 
-// add some mime-types
-// mime already defines some for us, soon they'll support all
-var mime = require('mime');
-
-// define early so that connect sees them
-mime.define({
-   'application/x-font-woff': ['woff'],
-   'image/vnd.microsoft.icon': ['ico'],
-   'image/webp': ['webp'],
-   'text/cache-manifest': ['manifest'],
-   'text/x-component': ['htc'],
-   'application/x-chrome-extension': ['crx'],
-   'image/svg+xml': ['svg', 'svgz']
-});
 
 // make sure you install Connect (npm install connect)
 // find the docs here: http://senchalabs.github.com/connect/
@@ -80,15 +61,15 @@ var routes = function (app) {
 
       // control cross domain if you want
       // req.header.host will be the host of the incoming request
-      var hostAddress = "example.com",
-         reqHost = req.headers.host;
+      //var hostAddress = "example.com",
+        // reqHost = req.headers.host;
 
       // allow cross domain (for your subdomains)
       // disallow other domains.
       // you can get really specific by adding the file
       // type extensions you want to allow to the if statement
-      if (reqHost && reqHost.indexOf(hostAddress) === -1)
-         res.end("Cross-domain is not allowed");
+      //if (reqHost && reqHost.indexOf(hostAddress) === -1)
+         //res.end("Cross-domain is not allowed");
 
       next(); // let the static server do the rest
    });
