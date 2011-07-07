@@ -52,7 +52,8 @@ var routes = function (app) {
          res.end("Not allowed");
 
       // control cross domain using CORS (http://enable-cors.org/)
-      req.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Origin', '*'); 
+      res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
 
       next(); // let the static server do the rest
    });
