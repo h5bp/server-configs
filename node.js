@@ -48,7 +48,7 @@ var routes = function (app) {
          res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
 
       // protect .files
-      if (reqPath.match(/(^|\/)\./))
+      if (url.match(/(^|\/)\./))
          res.end("Not allowed");
 
       // control cross domain using CORS (http://enable-cors.org/)
