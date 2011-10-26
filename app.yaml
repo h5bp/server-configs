@@ -139,10 +139,10 @@ handlers:
   static_files: static/\1
   upload: static/(.*\.swf)
 
-- url: /(.*\.ttf)
-  mime_type: font/truetype
+- url: /(.*\.(ttf|ttc))
+  mime_type: application/x-font-ttf
   static_files: static/\1
-  upload: static/(.*\.ttf)
+  upload: static/(.*\.(ttf|ttc))
 
 - url: /(.*\.txt)
   mime_type: text/plain
