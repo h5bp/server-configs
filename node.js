@@ -9,9 +9,10 @@
    any issues please file a issue :-)
 ============================================================================= */
 
+
 var connect = require('connect'),
-   // inspect tool, I use it all the time.
-   inspect = require('util').inspect;
+    // inspect tool, I use it all the time.
+    inspect = require('util').inspect;
 
 
 /* ----------------------------
@@ -22,8 +23,8 @@ var connect = require('connect'),
 
 
 
-
 var routes = function (app) {
+
 
 /* ---------------------------------------------------------------------------------
    your routes go here
@@ -38,26 +39,26 @@ var routes = function (app) {
 /* ---------------------------------------------------------------------------------
    Keep this route last.
 ---------------------------------------------------------------------------------- */
-   app.get('*', function (req, res, next) {
-      var url = req.url,
-         ua = req.headers['user-agent'];
+    app.get('*', function (req, res, next) {
+        var url = req.url,
+            ua = req.headers['user-agent'];
 
       // request latest IE engine or chrome frame
-      if (ua && ua.indexOf('MSIE') && 
-         url.match(/\.html$/) || url.match(/\.htm$/))
-         res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
+        if (ua && ua.indexOf('MSIE') && url.match(/\.html$/) || url.match(/\.htm$/))
+            res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
 
-      // protect .files
-      if (url.match(/(^|\/)\./))
-         res.end("Not allowed");
+        // protect .files
+        if (url.match(/(^|\/)\./))
+            res.end("Not allowed");
 
-      // control cross domain using CORS (http://enable-cors.org/)
-      res.setHeader('Access-Control-Allow-Origin', '*'); 
-      res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+        // control cross domain using CORS (http://enable-cors.org/)
+        res.setHeader('Access-Control-Allow-Origin', '*'); 
+        res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
 
-      next(); // let the static server do the rest
-   });
+        next(); // let the static server do the rest
+    });
 }
+
 
 /* ----------------------------------------------------------------------------------
    set you cache maximum age, in milisecconds.
@@ -65,17 +66,18 @@ var routes = function (app) {
    start the server.
 ---------------------------------------------------------------------------------- */
 var cache = 1000 * 60 * 60 * 24 * 30,
-   port   = 80, 
-   htdocs = __dirname,
-   server = connect.createServer(
-      // http://senchalabs.github.com/connect/middleware-logger.html
-      connect.logger(":date | :remote-addr | :method :url :status | :user-agent"),
-      connect.router(routes),
-      connect.static(__dirname, {maxAge: cache})
-   );
+    port   = 80, 
+    htdocs = __dirname,
+    server = connect.createServer(
+        // http://senchalabs.github.com/connect/middleware-logger.html
+        connect.logger(":date | :remote-addr | :method :url :status | :user-agent"),
+        connect.router(routes),
+        connect.static(__dirname, {maxAge: cache})
+    );
 
 server.listen(port);
 console.log('Node up!\n Port:   '+port+'\nhtdocs: '+htdocs);
+
 
 /* -----------------------------------------------------------------------------------
    this is a failsafe, it will catch the error silently and logged it the console
