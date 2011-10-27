@@ -11,6 +11,6 @@
 
 These configurations offer settings which aid in site performance. Below are guides on how to use them and what's inside each:
 
-* [Guide to .htaccess](https://github.com/h5bp/html5-boilerplate/wiki/.htaccess) for apache
+* [Guide to .htaccess](https://github.com/h5bp/html5-boilerplate/wiki/htaccess) for apache
 * [Guide to web.config](https://github.com/h5bp/html5-boilerplate/wiki/web.config) for IIS
 * [Guide to nginx.conf](https://github.com/h5bp/html5-boilerplate/wiki/nginx.conf) for nginx
