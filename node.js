@@ -30,7 +30,7 @@
 //      npm install colors
 //
 //      # start server
-//      node app.js
+//      node node.js
 
 var connect  = require('connect')
   , port     = 8080
