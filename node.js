@@ -2,13 +2,6 @@
 //     node.js server config for html5-boilerplate
 //       by @niftylettuce and @xonecas
 
-// Inspired by Expressling
-//  <https://github.com/niftylettuce/expressling>
-
-// Looking for something more?  Need a bullet-proof + rock-solid node.js H5BP?
-//  Try Expressling by visiting the Github link above!
-
-
 // # node.js html5-boilerplate server-config
 
 // Requirements:
@@ -23,21 +16,17 @@
 //      # install connect
 //      npm install connect
 //
-//      # install mime
-//      npm install mime
-//
-//      # install colors
-//      npm install colors
-//
 //      # start server
 //      node node.js
 
 var connect  = require('connect')
-  , port     = 8080
   , cacheAge = 24 * 60 * 60 * 1000
-  , htdocs   = __dirname
-  , mime     = require('mime')
-  , colors   = require('colors');
+    // USAGE:
+    // prod -> PRODUCTION=true node server.js
+    // dev -> node server
+  , prod = process.env.PRODUCTION
+  , root = prod ? 'path/to/prod/files': 'path/to/dev/files'
+  , port = prod ? 80 : 8080;
 
 // # Routes
 var routes = function(app) {
@@ -116,13 +105,7 @@ var server = connect.createServer(
       + '\\n' + '  Status: '.yellow.bold + ':status'.white + '\\n'
       + '  User Agent: '.magenta.bold + ':user-agent'.white)
   , connect.router(routes)
-  , connect.static(htdocs, { maxAge: cacheAge })
+  , connect["static"](root, { maxAge: cacheAge })
 );
 server.listen(port);
 console.log('\n  ' + 'NODE UP ON PORT '.rainbow.bold + port); // aww pretty!
-
-// This is a failsafe, it will catch the error silently and log it to console.
-//  You should really try to catch the errors with a try/catch block.
-process.on('uncaughtException', function (err) {
-  console.log('  Caught exception: ' + err);
-});
