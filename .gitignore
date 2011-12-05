@@ -33,3 +33,9 @@ nbproject
 intermediate
 publish
 .idea
+
+# Node stuff to ignore
+node_modules
+package.json
+index.html
+jshint

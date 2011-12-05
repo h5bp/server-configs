@@ -1,90 +1,100 @@
-/* ============================================================================
-   author: @xonecas
- 
-   A boiler inspired by apache's .htaccess, that will serve static
-   files off the shelf (just in case you want to get going quick)
-   Everything else is for you to decide.
 
-   I will keep this up to date with current node and connect versions
-   any issues please file a issue :-)
-============================================================================= */
+// # [node.js h5bp server-config](https://github.com/h5bp/server-configs)
+//  by @xonecas and @niftylettuce
 
+// Requires latest version of `node` and `npm`
+// <https://gist.github.com/579814>
 
-var connect = require('connect'),
-    // inspect tool, I use it all the time.
-    inspect = require('util').inspect;
+// # Getting started:
+// * Create directories `$ mkdir -p ~/project/node_modules && cd ~/project`
+// * Install dependencies `$ npm install connect colors`
 
+// # Usage:
+// `$ PRODUCTION=true node node.js` (prod mode) or `$ node node.js` (dev mode)
 
-/* ----------------------------
-   your server code:
----------------------------- */
+var connect  = require('connect')
+  , colors = require('colors')
+  , cacheAge = 24 * 60 * 60 * 1000
+  , prod = process.env.PRODUCTION
+  // **NOTE:** You'll need to change these paths:
+  , root = prod ? 'path/to/prod/public': 'path/to/dev/public'
+  , port = prod ? 80 : 8080;
 
+// # Routes
+var routes = function(app) {
 
+  // **TODO:** Insert your routes here (e.g. app.get('/home') app.post('/form'))
 
+  // ## Always keep this route last
+  app.get('*', function(req, res, next) {
 
+    var url = req.url
+      , ua = req.headers['user-agent'];
 
-var routes = function (app) {
+    // ## Block access to hidden files and directories that begin with a period
+    if (url.match(/(^|\/)\./)) {
+      res.end("Not allowed");
+    }
 
+    // ## Better website experience for IE users
+    //  Force the latest IE version, in cases when it may fall back to IE7 mode
+    if(ua && ua.indexOf('MSIE') && /htm?l/.test(ua)) {
+      res.setHeader('X-UA-Compatible', 'IE=Edge,chrome=1');
+    }
 
-/* ---------------------------------------------------------------------------------
-   your routes go here
-   you can use app.get, app.post, ...
-   the docs are here: http://senchalabs.github.com/connect/middleware-router.html
----------------------------------------------------------------------------------- */
+    // ## CORS
+    //  <http://github.com/rails/rails/commit/123eb25#commitcomment-118920>
+    //  Use ChromeFrame if it's installed, for a better experience with IE folks
+    //  Control cross domain using CORS http://enable-cors.org
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
 
+    // ## Production Environment Compression (requires latest version of node)
+    //
+    // If you want to enable [gzippo](<https://github.com/tomgallacher/gzippo>):
+    //
+    //   `var gzippo = require('gzippo');'`
+    //
+    // Then install gzippo via `$ npm install gzippo` and add to `var routes{}`:
+    //
+    //   `app.use(gzippo.staticGzip(root, { maxAge: cacheAge}));`
+    //
+    // Next remove `, connect["static"](root, { maxAge: cacheAge })` from below.
 
+    // **TODO:** Allow concatenation from within specific js and css files
+    // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L111
 
+    // **TODO:** Stop screen flicker in IE on CSS rollovers
+    // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L271
 
+    // **TODO:** Cookie setting from iframes
+    // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L286
 
-/* ---------------------------------------------------------------------------------
-   Keep this route last.
----------------------------------------------------------------------------------- */
-    app.get('*', function (req, res, next) {
-        var url = req.url,
-            ua = req.headers['user-agent'];
+    // **TODO:** Suppress or force the "www." at the beginning of URLs
+    // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L315
 
-      // request latest IE engine or chrome frame
-        if (ua && ua.indexOf('MSIE') && url.match(/\.html$/) || url.match(/\.htm$/))
-            res.setHeader('X-UA-Compatible', "IE=Edge,chrome=1");
+    // **TODO:** Built-in filename-based cache busting
+    // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L356
 
-        // protect .files
-        if (url.match(/(^|\/)\./))
-            res.end("Not allowed");
+    // **TODO:** Prevent SSL cert warnings
+    // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L376
 
-        // control cross domain using CORS (http://enable-cors.org/)
-        res.setHeader('Access-Control-Allow-Origin', '*'); 
-        res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+  });
 
-        next(); // let the static server do the rest
-    });
-}
+};
 
-
-/* ----------------------------------------------------------------------------------
-   set you cache maximum age, in milisecconds.
-   if you don't use cache break use a smaller value
-   start the server.
----------------------------------------------------------------------------------- */
-var cache = 1000 * 60 * 60 * 24 * 30,
-    port   = 80, 
-    htdocs = __dirname,
-    server = connect.createServer(
-        // http://senchalabs.github.com/connect/middleware-logger.html
-        connect.logger(":date | :remote-addr | :method :url :status | :user-agent"),
-        connect.router(routes),
-        connect.static(__dirname, {maxAge: cache})
-    );
-
+// ## Start the server
+var server = connect.createServer(
+    // Logger from [Expressling](https://github.com/niftylettuce/expressling)
+    connect.logger(''
+      + '\\n  ' + ':date'.bold.underline + '\\n\\n' + '  IP: '.cyan.bold
+      + ' ' + ':remote-addr'.white + '\\n' + '  Method: '.red.bold
+      + ':method'.white + '\\n' + '  URL: '.blue.bold + ':url'.white
+      + '\\n' + '  Status: '.yellow.bold + ':status'.white + '\\n'
+      + '  User Agent: '.magenta.bold + ':user-agent'.white)
+  , connect.router(routes)
+  , connect["static"](root, { maxAge: cacheAge })
+);
 server.listen(port);
-console.log('Node up!\n Port:   '+port+'\nhtdocs: '+htdocs);
-
-
-/* -----------------------------------------------------------------------------------
-   this is a failsafe, it will catch the error silently and logged it the console
-   while this works, you should really try to catch the errors with a try/catch block
-   more on this here: 
-      http://nodejs.org/docs/v0.4.3/api/process.html#event_uncaughtException_
------------------------------------------------------------------------------------ */
-process.on('uncaughtException', function (err) {
-   console.log('Caught exception: ' + err);
-});
+console.log('\n  ' + 'NODE UP ON PORT '.rainbow + port);
