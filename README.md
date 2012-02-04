@@ -3,12 +3,12 @@
 
 ## Best-practice server configurations for:
 
-* **.htaccess** for Apache is actually kept in the original [boilerplate repo](https://github.com/h5bp/html5-boilerplate/)
-* **node.js** for node.js
-* **web.config** for IIS
-* **nginx.conf** for nginx
-* **lighttpd** for lighttpd
-* **app.yaml** and **gae.py** for Google AppEngine
+* **Apache** The .htaccess config for Apache is actually kept in the original [boilerplate repo](https://github.com/h5bp/html5-boilerplate/)
+* **node.js**
+* **iis**
+* **nginx**
+* **lighttpd**
+* **Google AppEngine**
 
  These configurations offer settings which aid in site performance.
 
