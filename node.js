@@ -20,7 +20,7 @@ h5bp.ieEdgeChromeFrameHeader = function () {
    };
 };
 
-   // block access to hidden files and directories.
+// block access to hidden files and directories.
 h5bp.protectDotfiles = function () {
    return function (req, res, next) {
       var error;
@@ -60,7 +60,6 @@ h5bp.suppressWww = function (suppress) {
 
 // Far expire headers
 // use this when not using connect.static for your own expires/etag control
-// ** WARNING ** connect.static overrides this.
 h5bp.expireHeaders = function (maxAge) {
    return function (req, res, next) {
       res.setHeader('Cache-Control', 'public, max-age='+ (maxAge));
@@ -101,6 +100,9 @@ h5bp.setContentType = function (mime) {
 //    maxAge: integer, time in miliseconds ex: 1000 * 60 * 60 * 24 * 30 = 30 days,
 //    mime: reference to the mime module ex: require('mime')
 // }
+// Depends:
+//    express or connect server
+//    mime module [optional]
 h5bp.server = function (serverConstructor, options) {
    return serverConstructor.createServer(
       serverConstructor.logger('dev'),
@@ -108,7 +110,7 @@ h5bp.server = function (serverConstructor, options) {
       this.protectDotfiles(),
       this.crossDomainRules(),
       this.ieEdgeChromeFrameHeader(),
-      //this.expireHeaders(),
+      //this.expireHeaders(options.maxAge),
       //this.removeEtag(),
       //this.setContentType(require('mime')),
       //serverConstructor.compress(), // express doesn't seem to expose this middleware
