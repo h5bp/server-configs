@@ -32,6 +32,18 @@ h5bp.protectDotfiles = function () {
    };
 };
 
+// block access to backup and source files
+h5bp.blockBackupFiles = function () {
+   return function (req, res, next) {
+      var error;
+      if (/\.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist)|~/.test(req.url)) {
+         error = new Error(_http.STATUS_CODES[405]); // 405, not allowed
+         error.status = 405;
+      }
+      next(error);
+   };
+};
+
 // Enable CORS cross domain rules, more info at http://enble-cors.org/
 h5bp.crossDomainRules = function () {
    return function (req, res, next) {
@@ -108,6 +120,7 @@ h5bp.server = function (serverConstructor, options) {
       serverConstructor.logger('dev'),
       this.suppressWww(true),
       this.protectDotfiles(),
+      this.protectBackupFiles(),
       this.crossDomainRules(),
       this.ieEdgeChromeFrameHeader(),
       //this.expireHeaders(options.maxAge),
