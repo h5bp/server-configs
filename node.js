@@ -44,6 +44,13 @@ h5bp.blockBackupFiles = function () {
    };
 };
 
+h5bp.removePoweredBy = function () {
+   return function (req, res, next) {
+      res.removeHeader('X-Powered-By');
+      next();
+   };
+};
+
 // Enable CORS cross domain rules, more info at http://enble-cors.org/
 h5bp.crossDomainRules = function () {
    return function (req, res, next) {
