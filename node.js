@@ -1,6 +1,14 @@
 /* h5bp server-configs project
  *
  * maintainer: @xonecas, <insert your name here>
+ * 
+ * NOTES:
+ * compression: use the compress middleware provided by connect 2.x to enable gzip/deflate compression
+ * 							http://www.senchalabs.org/connect/compress.html
+ *
+ * concatenation: use on of the following middlewares to enable automatic concatenation of static assets
+ *								- https://github.com/mape/connect-assetmanager
+ *								- https://github.com/TrevorBurnham/connect-assets
  */
 var h5bp    = module.exports,
    _http    = require('http'),
@@ -44,6 +52,7 @@ h5bp.blockBackupFiles = function () {
    };
 };
 
+// Do we want to advertise what kind of server we're running?
 h5bp.removePoweredBy = function () {
    return function (req, res, next) {
       res.removeHeader('X-Powered-By');
@@ -122,6 +131,7 @@ h5bp.setContentType = function (mime) {
 // Depends:
 //    express or connect server
 //    mime module [optional]
+
 h5bp.server = function (serverConstructor, options) {
    return serverConstructor.createServer(
       serverConstructor.logger('dev'),
