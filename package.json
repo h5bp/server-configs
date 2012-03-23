@@ -1,7 +1,7 @@
 {
   "name": "h5bp",
   "description": "node.js middleware for h5bp server configuration",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Nick Baugh <niftylettuce@gmail.com>",
   "maintainers": [
     {
