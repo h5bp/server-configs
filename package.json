@@ -3,6 +3,16 @@
   "description": "node.js middleware for h5bp server configuration",
   "version": "0.0.1",
   "author": "Nick Baugh <niftylettuce@gmail.com>",
+  "maintainers": [
+    {
+      "name": "Nick Baugh",
+      "email": "niftylettuce@gmail.com"
+    },
+    {
+      "name": "Sean Caetano Martin",
+      "email": "seancaetanomartin@gmail.com"
+    }
+  ],
   "keywords": ["h5bp", "server-config", "boilerplate"],
   "homepage": "https://github.com/h5bp/server-configs",
   "repository": {
