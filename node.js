@@ -5,7 +5,7 @@
  *
  * NOTES:
  * compression: use the compress middleware provided by connect 2.x to enable gzip/deflate compression
- * 							http://www.senchalabs.org/connect/compress.html
+ *							http://www.senchalabs.org/connect/compress.html
  *
  * concatenation: use on of the following middlewares to enable automatic concatenation of static assets
  *								- https://github.com/mape/connect-assetmanager
@@ -138,7 +138,7 @@ h5bp.server = function (serverConstructor, options) {
       serverConstructor.logger('dev'),
       this.suppressWww(true),
       this.protectDotfiles(),
-      this.protectBackupFiles(),
+      this.blockBackupFiles(),
       this.crossDomainRules(),
       this.ieEdgeChromeFrameHeader(),
       //this.expireHeaders(options.maxAge),
