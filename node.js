@@ -1,10 +1,11 @@
 /* h5bp server-configs project
  *
- * maintainer: @xonecas, <insert your name here>
- * 
+ * maintainer: @xonecas
+ * contributors: @niftylettuce
+ *
  * NOTES:
  * compression: use the compress middleware provided by connect 2.x to enable gzip/deflate compression
- * 							http://www.senchalabs.org/connect/compress.html
+ *							http://www.senchalabs.org/connect/compress.html
  *
  * concatenation: use on of the following middlewares to enable automatic concatenation of static assets
  *								- https://github.com/mape/connect-assetmanager
@@ -123,7 +124,7 @@ h5bp.setContentType = function (mime) {
 
 // return a express/connect server with the default middlewares.
 // @param serverConstructor = express/connect server instance
-// @param options = { 
+// @param options = {
 //    root: 'path/to/public/files',
 //    maxAge: integer, time in miliseconds ex: 1000 * 60 * 60 * 24 * 30 = 30 days,
 //    mime: reference to the mime module ex: require('mime')
@@ -137,7 +138,7 @@ h5bp.server = function (serverConstructor, options) {
       serverConstructor.logger('dev'),
       this.suppressWww(true),
       this.protectDotfiles(),
-      this.protectBackupFiles(),
+      this.blockBackupFiles(),
       this.crossDomainRules(),
       this.ieEdgeChromeFrameHeader(),
       //this.expireHeaders(options.maxAge),

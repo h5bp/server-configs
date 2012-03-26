@@ -36,6 +36,5 @@ publish
 
 # Node stuff to ignore
 node_modules
-package.json
 index.html
 jshint
