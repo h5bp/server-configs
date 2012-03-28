@@ -22,6 +22,10 @@ nbproject
 *.sublime-project
 *.sublime-workspace
 
+# Dreamweaver added files
+_notes
+dwsync.xml
+
 # Komodo
 *.komodoproject
 .komodotools
@@ -34,7 +38,6 @@ intermediate
 publish
 .idea
 
-# Node stuff to ignore
-node_modules
-index.html
-jshint
+# build script local files
+build/buildinfo.properties
+build/config/buildinfo.properties

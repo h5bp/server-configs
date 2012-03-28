@@ -1,82 +1,156 @@
-// # [node.js h5bp server-config](https://github.com/h5bp/server-configs)
-//  by @xonecas and @niftylettuce
+/* h5bp server-configs project
+ *
+ * maintainer: @xonecas
+ * contributors: @niftylettuce
+ *
+ * NOTES:
+ * compression: use the compress middleware provided by connect 2.x to enable gzip/deflate compression
+ *							http://www.senchalabs.org/connect/compress.html
+ *
+ * concatenation: use on of the following middlewares to enable automatic concatenation of static assets
+ *								- https://github.com/mape/connect-assetmanager
+ *								- https://github.com/TrevorBurnham/connect-assets
+ */
+var h5bp    = module.exports,
+   _http    = require('http'),
+   _parse   = require('url').parse;
 
-// Requires latest version of `node` and `npm`
-// <https://gist.github.com/579814>
-
-// # Getting started:
-// * Create directories `$ mkdir -p ~/project/node_modules && cd ~/project`
-
-// # Usage:
-// `$ PRODUCTION=true node node.js` (prod mode) or `$ node node.js` (dev mode)
-
-var connect  = require('connect'),
-   cacheAge = 24 * 60 * 60 * 1000,
-   prod = process.env.PRODUCTION,
-   // specify a production directory, or serve current directory.
-   root = prod ? 'path/to/prod/public': __dirname,
-   port = prod ? 80 : 8080;
-
-// # Routes
-var routes = function(app) {
-
-   // # Insert your routes here (e.g. app.get('/home') app.post('/form'))
-
-   // ## Always keep this route last
-   app.get('*', function(req, res, next) {
+// send the IE=Edge and chrome=1 headers for IE browsers
+// on html/htm resquests.
+h5bp.ieEdgeChromeFrameHeader = function () {
+   return function (req, res, next) {
       var url = req.url,
          ua = req.headers['user-agent'];
 
-      // ## Block access to hidden files and directories that begin with a period
-      if (url.match(/(^|\/)\./)) {
-         res.end("Not allowed");
-      }
-
-      // ## Better website experience for IE users
-      //  Force the latest IE version, in cases when it may fall back to IE7 mode
-      if(ua && ua.indexOf('MSIE') && /htm?l$/.test(url)) {
+      if (ua && ua.indexOf('MSIE') && /html?($|\?|#)/.test(url)) {
          res.setHeader('X-UA-Compatible', 'IE=Edge,chrome=1');
       }
-
-      //  Control cross domain using CORS http://enable-cors.org
-      res.setHeader('Access-Control-Allow-Origin', '*');
-      res.setHeader("Access-Control-Allow-Headers", "X-Requested-With");
-
-      // **TODO:** Allow concatenation from within specific js and css files
-      // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L111
-
-      // **TODO:** Stop screen flicker in IE on CSS rollovers
-      // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L271
-
-      // **TODO:** Cookie setting from iframes
-      // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L286
-
-      // **TODO:** Suppress or force the "www." at the beginning of URLs
-      // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L315
-      if (/^www\./.test(url)) {
-         res.statusCode = 302;
-         res.setHeader('Location', url.replace(/^www\./, ''));
-         res.end();
-      }
-
-      // **TODO:** Built-in filename-based cache busting
-      // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L356
-
-      // **TODO:** Prevent SSL cert warnings
-      // https://github.com/paulirish/html5-boilerplate/blob/master/.htaccess/#L376
-
       next();
-   });
-
+   };
 };
 
-// ## Start the server
-var server = connect.createServer(
-   connect.logger('dev'),
-   connect.router(routes),
-   // if you want gzip, then replace the next line with gzippo
-   // https://github.com/tomgallacher/gzippo
-   connect["static"](root, { maxAge: cacheAge })
-);
-server.listen(port);
-console.log('NODE UP ON PORT '+ port);
+// block access to hidden files and directories.
+h5bp.protectDotfiles = function () {
+   return function (req, res, next) {
+      var error;
+      if (/(^|\/)\./.test(req.url)) {
+         error = new Error(_http.STATUS_CODES[405]); // 405, not allowed
+         error.status = 405;
+      }
+      next(error);
+   };
+};
+
+// block access to backup and source files
+h5bp.blockBackupFiles = function () {
+   return function (req, res, next) {
+      var error;
+      if (/\.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist)|~/.test(req.url)) {
+         error = new Error(_http.STATUS_CODES[405]); // 405, not allowed
+         error.status = 405;
+      }
+      next(error);
+   };
+};
+
+// Do we want to advertise what kind of server we're running?
+h5bp.removePoweredBy = function () {
+   return function (req, res, next) {
+      res.removeHeader('X-Powered-By');
+      next();
+   };
+};
+
+// Enable CORS cross domain rules, more info at http://enble-cors.org/
+h5bp.crossDomainRules = function () {
+   return function (req, res, next) {
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With');
+      next();
+   };
+};
+
+// Suppress or force 'www' in the urls
+// @param suppress = boolean
+h5bp.suppressWww = function (suppress) {
+   return function (req, res, next) {
+      var url = req.url;
+      if (suppress && /^www\./.test(url)) {
+         res.statusCode = 302;
+         res.setHeader('Location', url.replace(/^www\./,''));
+      }
+      if (!suppress && !/^www\./.test(url)) {
+         res.statusCode = 302;
+         res.setHeader('Location', "www."+url);
+      }
+      next();
+   };
+};
+
+// Far expire headers
+// use this when not using connect.static for your own expires/etag control
+h5bp.expireHeaders = function (maxAge) {
+   return function (req, res, next) {
+      res.setHeader('Cache-Control', 'public, max-age='+ (maxAge));
+      next();
+   };
+};
+
+// Etag removal
+// only use this is you are setting far expires for your files
+// ** WARNING ** connect.static overrides this.
+h5bp.removeEtag = function () {
+   return function (req, res, next) {
+      res.removeHeader('Last-Modified');
+      res.removeHeader('ETag');
+      next();
+   };
+};
+
+// set proper content type
+// @param mime = reference to the mime module (https://github.com/bentomas/node-mime)
+h5bp.setContentType = function (mime) {
+   return function (req, res, next) {
+      // I'm handling the dependency by having it passed as an argument
+      // we depend on the mime module to determine proper content types
+      // connect also has the same dependency for the static provider
+      // ** @TODO ** maybe connect/express expose this module somehow?
+      var path = _parse(req.url).pathname,
+         type  = mime.lookup(path);
+      res.setHeader('Content-Type', type);
+      next();
+   };
+};
+
+// return a express/connect server with the default middlewares.
+// @param serverConstructor = express/connect server instance
+// @param options = {
+//    root: 'path/to/public/files',
+//    maxAge: integer, time in miliseconds ex: 1000 * 60 * 60 * 24 * 30 = 30 days,
+//    mime: reference to the mime module ex: require('mime')
+// }
+// Depends:
+//    express or connect server
+//    mime module [optional]
+
+h5bp.server = function (serverConstructor, options) {
+   return serverConstructor.createServer(
+      serverConstructor.logger('dev'),
+      this.suppressWww(true),
+      this.protectDotfiles(),
+      this.blockBackupFiles(),
+      this.crossDomainRules(),
+      this.ieEdgeChromeFrameHeader(),
+      //this.expireHeaders(options.maxAge),
+      //this.removeEtag(),
+      //this.setContentType(require('mime')),
+      //serverConstructor.compress(), // express doesn't seem to expose this middleware
+      serverConstructor['static'](options.root, { maxAge: options.maxAge }), // static is a reserved
+      serverConstructor.favicon(options.root, { maxAge: options.maxAge }),
+      serverConstructor.errorHandler({
+         stack: true,
+         message: true,
+         dump: true
+      })
+   );
+};
