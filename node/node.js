@@ -22,7 +22,7 @@ h5bp.ieEdgeChromeFrameHeader = function () {
       var url = req.url,
          ua = req.headers['user-agent'];
 
-      if (ua && ua.indexOf('MSIE') && /html?($|\?|#)/.test(url)) {
+      if (ua && ua.indexOf('MSIE') > -1 && /html?($|\?|#)/.test(url)) {
          res.setHeader('X-UA-Compatible', 'IE=Edge,chrome=1');
       }
       next();
