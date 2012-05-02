@@ -16,7 +16,7 @@ var h5bp    = module.exports,
    _parse   = require('url').parse;
 
 // send the IE=Edge and chrome=1 headers for IE browsers
-// on html/htm resquests.
+// on html/htm requests.
 h5bp.ieEdgeChromeFrameHeader = function () {
    return function (req, res, next) {
       var url = req.url,
