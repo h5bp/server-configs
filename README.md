@@ -6,6 +6,7 @@
 * **Apache** The .htaccess config for Apache is actually kept in the original [boilerplate repo](https://github.com/h5bp/html5-boilerplate/)
 * **node.js**
 * **IIS 7+**
+* **IIS 6 - see /iis/IIS6 README (IMPORTANT).txt**
 * **nginx**
 * **lighttpd**
 * **Google AppEngine**
