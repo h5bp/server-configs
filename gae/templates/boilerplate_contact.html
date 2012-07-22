@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block header_title %}
+        {{ lang.menu_contact|safe }}
+{% endblock %}
+
+{% block content %}
+    <form id="form_contact" action="{{ action|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="name">{{ lang.field_name|safe }}:</label>
+                <div class="controls">
+                    <input class="input-xlarge focused required" name="name" id="name" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.field_name|safe }}" value="{{ name }}" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="email">{{ lang.field_email|safe }}:</label>
+                <div class="controls">
+                    <input class="input-xlarge focused required email" name="email" id="email" type="email" placeholder="{{ lang.enter_your|safe }} {{ lang.field_email|safe }}" value="{{ email }}" />
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="message">{{ lang.field_message|safe }}:</label>
+                <div class="controls">
+                    <textarea cols="40" rows="8" name="message" id="message" class="input-xlarge required"></textarea>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{{ lang.button_contact|safe }}</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+{% block mediaJS %}
+<script type="text/javascript">
+    $().ready(function() {
+        $("#form_contact").validate({
+            errorPlacement: function(error, element) {
+                element.parent().parent().addClass("error");
+                error.addClass("help-inline").appendTo( element.parent() );
+            }
+        });
+    });
+</script>
+{% endblock %}
+

@@ -1,0 +1,66 @@
+= Google App Engine Boilerplate
+
+The Google App Engine Boilerplate helps to get your project off the ground quickly over Google App Engine platform. It introduces new developers to App Engine or even *advanced developer* to copying best practices.
+
+{Try it online}[http://appengine.protoboard.cl]
+
+=== What's a Boilerplate?
+Boilerplate is used to describe sections of code that can be reused over and over in new contexts or applications which provides good default values, reducing the need to specify program details in every project. ({wikipedia}[http://en.wikipedia.org/wiki/Boilerplate_code])
+
+=== What's the difference with other Boilerplates?
+It is complete (the most required features for an application) and uses latest technologies supported on Google App Engine.
+
+If you don't know what is Google App Engine, I recommend before to watch {this video}[http://www.youtube.com/watch?v=bfgO-LXGpTM] and read {this website}[https://developers.google.com/appengine/].
+
+Try it online {here}[http://appengine.protoboard.cl].
+
+
+== Just 5 easy steps
+1. Download the last version of the {App Engine SDK}[http://code.google.com/appengine/downloads.html#Google_App_Engine_SDK_for_Python] for Linux, Mac OS or Windows (Tested with SDK version 1.6.6).
+1. Download the code of this Boilerplate ({here}[https://github.com/coto/gae-boilerplate/zipball/master])
+1. Run locally ({instructions}[https://developers.google.com/appengine/docs/python/tools/devserver]).
+1. Use your 'application' name in {app.yaml}[https://github.com/coto/gae-boilerplate/blob/master/app.yaml]
+1. Deploy it to your own app ({instructions}[https://developers.google.com/appengine/docs/python/gettingstarted/uploading])
+
+
+== This Boilerplate has the following functions:
+- Authentication (Login, Logout, Register User)
+- Reset Password
+- Update User Profile (developing)
+- Automatic Language Detection
+- Contact Form (getting information for logged user)
+- Responsive Design (using the amazing Twitter-Bootstrap Template)
+- Device identification (Mobile or Desktop)
+
+
+== Open Source
+If you want add, fix or improve something, let us know with an {issue}[https://github.com/coto/gae-boilerplate/issues] or a {Pull Request}[https://github.com/coto/gae-boilerplate/pull/new/master].
+
+Feel free to commit improvements or new features. Feedback, comments and ideas are welcome.
+
+
+== Try online this Boilerplate
+http://appengine.protoboard.cl
+
+
+== Technologies used
+* Python 2.7
+* {NDB 1.0.1}[http://code.google.com/p/appengine-ndb-experiment/] (A new datastore API for the Google App Engine Python runtime).
+* {Jinja2}[http://jinja.pocoo.org/docs/] (A full featured template engine for Python).
+* {webapp2}[http://webapp-improved.appspot.com/] (A lightweight Python web framework compatible with Google App Engine).
+  * webapp2_extras.sessions
+  * webapp2_extras.routes
+  * webapp2_extras.auth
+* Handlers with @user_required
+* Handlers with @login_required (for Google Authentication)
+* Code wrote following the {Google Python Style Guide}[http://google-styleguide.googlecode.com/svn/trunk/pyguide.html]
+
+
+== Front-end Technologies
+* {HTML5Boilerplate}[http://html5boilerplate.com/] with {Modernizr 2.5.3}[http://modernizr.com]
+* jQuery 1.7.2
+* {Twitter Bootstrap 2.0.4}[http://twitter.github.com/bootstrap/] Template for Desktop Version.
+
+
+
+Hope it works for you!! :)

@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block header_title_lead %}{% endblock %}
+
+{% block content %}
+
+    {% if user_id %}
+    <div class="hero-unit home_bp">
+        <h1>
+            {{ lang.text_title|safe }}
+        </h1>
+        <p>
+            {{ lang.text_description|safe }}
+        </p>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="span8">
+            <div class="home_bp">
+                <h1>
+                    {{ lang.text_title|safe }}
+                </h1>
+                <p>
+                    {{ lang.text_description|safe }}
+                </p>
+            </div>
+        </div>
+        <div class="span4">
+            <h3>Login</h3>
+            <form id="form_login_user" action="{{ uri_for("login") }}" method="post" class="">
+                <fieldset class="well">
+                    <div class="control-group">
+                        <div class="controls">
+                            <input class="focused required" name="username" id="l_username" type="text" placeholder="{{ lang.login_username|safe }}">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <input class="focused required" name="password" id="l_password" type="password" placeholder="{{ lang.login_password|safe }}">
+                        </div>
+                        <div class="controls">
+                            <label class="checkbox">
+                                <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                                {{ lang.login_remember|safe }}
+                                <a href="{{ uri_for("password-reset") }}">{{ lang.menu_fyp|safe }}</a>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">{{ lang.menu_login|safe }}</button>
+                    </div>
+                </fieldset>
+            </form>
+
+            <h3>{{ lang.menu_register|safe }}</h3>
+            <form id="form_register" action="{{ uri_for("register") }}" method="post">
+                <fieldset class="well">
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required" name="username" id="username" type="text" placeholder="{{ lang.field_username|safe }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required email" name="email" id="email" type="email" placeholder="{{ lang.field_email|safe }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required" name="password" id="password" type="password" placeholder="{{ lang.field_password|safe }}">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                        <input class="focused required" name="c_password" id="c_password" type="password" placeholder="{{ lang.field_cpassword|safe }}">
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">{{ lang.menu_register|safe }}</button>
+                </div>
+                </fieldset>
+            </form>
+        </div>
+    </div><!-- /row -->
+    {% endif %}
+
+{% endblock %}
+
+{% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_login_user").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+
+            $("#form_register").validate({
+                submitHandler: function(form) {
+                    form.submit();
+                },
+                rules: {
+                    password: 'required',
+                    c_password: {
+                        required: true,
+                        equalTo: '#password'
+                    }
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+        });
+    </script>
+{% endblock %}
+

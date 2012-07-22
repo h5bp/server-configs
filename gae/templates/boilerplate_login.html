@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block header_title %}
+    {{ lang.menu_login|safe }}
+{% endblock %}
+
+{% block content %}
+    <form id="form_login_user" action="{{ action|safe }}" method="post" class="well form-horizontal">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label" for="username">{{ lang.login_username|safe }}:</label>
+                <div class="controls">
+                    <input class="input-xlarge focused required" name="username" id="username" type="text" placeholder="{{ lang.enter_your|safe }} {{ lang.login_username|safe }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="password">{{ lang.login_password|safe }}:</label>
+                <div class="controls">
+                    <input class="input-xlarge focused required" name="password" id="password" type="password" placeholder="{{ lang.enter_your|safe }} {{ lang.login_password|safe }}">
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                  <label class="checkbox">
+                    <input type="checkbox" name="remember_me" id="remember_me" value="on">
+                      {{ lang.login_remember|safe }}
+                  </label>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">{{ lang.menu_login|safe }}</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
+
+{% block mediaJS %}
+    <script type="text/javascript">
+        $().ready(function() {
+            $("#form_login_user").validate({
+                submitHandler: function(form) {
+                          form.submit();
+                },
+                errorPlacement: function(error, element) {
+                    element.parent().parent().addClass("error");
+                    error.addClass("help-inline").appendTo( element.parent() );
+                }
+            });
+        });
+    </script>
+{% endblock %}

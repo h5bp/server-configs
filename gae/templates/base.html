@@ -1,0 +1,139 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="{{ lang.id }}"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+
+    <title>{% block title %}Google App Engine Boilerplate{% endblock %}</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="keywords" content="" />
+
+    <!-- Mobile viewport optimized: h5bp.com/viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    {% if is_mobile %}
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    {% endif %}
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-responsive.min.css">
+    <link rel="stylesheet" href="/css/main.css" />
+    {% block mediaCSS %}{% endblock %}
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', '{{ google_analytics_code }}']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- All JavaScript at the bottom, except this Modernizr build.
+       Modernizr enables HTML5 elements & feature detects for optimal performance.
+       Create your own custom Modernizr build: www.modernizr.com/download/ -->
+    <script src="/js/libs/modernizr-2.5.3.min.js"></script>
+</head>
+<body>
+    <!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+           chromium.org/developers/how-tos/chrome-frame-getting-started -->
+    <!--[if lt IE 8]>{{ lang.text_oldbrowser|safe }}<![endif]-->
+
+    <div id="page">
+        {% block navbar %}
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                    <span class="icon-chevron-down icon-white"></span>
+                </button>
+                <a class="brand" href="/">Boilerplate</a>
+                <div class="nav-collapse">
+                    <ul class="nav pull-right">
+                        <li><a href="https://github.com/coto/gae-boilerplate" target="_blank"><span class="icon-inbox icon-white" ></span> {{ lang.menu_opensource|safe }}</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                {{ lang.text_language|safe }} : {{ lang.lang_name }} <b class="caret"></b>
+                            </a>
+                            <ul class="dropdown-menu">
+                                {% if lang.id != "es" %}<li><a href="{{ path_for_language }}&hl=es">{{ lang.spanish|safe }} - {{ lang_native.es['spanish']  }}</a></li>{% endif %}
+                                {% if lang.id != "en" %}<li><a href="{{ path_for_language }}&hl=en">{{ lang.english|safe }} - {{ lang_native.en['english']  }}</a></li>{% endif %}
+                                {% if lang.id != "it" %}<li><a href="{{ path_for_language }}&hl=it">{{ lang.italian|safe }} - {{ lang_native.it['italian']  }}</a></li>{% endif %}
+                                {% if lang.id != "cn" %}<li><a href="{{ path_for_language }}&hl=cn">{{ lang.chinese|safe }} - {{ lang_native.cn['chinese']  }}</a></li>{% endif %}
+                            </ul>
+                        </li>
+                        {% if user_id %}
+                        <li class="divider-vertical"></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@{{ username }} <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ uri_for("edit-profile") }}">{{ lang.menu_edit_profile|safe }}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ logout_url }}">{{ lang.menu_logout|safe }}</a></li>
+                            </ul>
+                        </li>
+                        {% elif path != "/" %}
+                        <li class="divider-vertical"></li>
+                        <li><a href="/login">{{ lang.menu_login|safe }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div><!-- /.nav-collapse -->
+            </div><!-- /navbar-inner -->
+        </div><!-- /navbar -->
+        {% endblock %}
+
+        <div id="content" class="container xled">
+            {% block header %}
+            <header class="subhead" id="overview">
+                {% block header_title_lead %}
+                <h1>{% block header_title %}Google App Engine Boilerplate{% endblock %}</h1>
+                <p class="lead">{{ lang.text_description|safe }}</p>
+                {% endblock %}
+                <div class="subnav">
+                    <ul class="nav nav-pills">
+                        <li{% if path == uri_for("bootstrap") %} class="active"{% endif %}><a href="{{ uri_for("bootstrap") }}">Bootstrap</a></li>
+                        <li{% if path == uri_for("contact") %} class="active"{% endif %}><a href="{{ uri_for("contact") }}">{{ lang.menu_contact|safe }}</a></li>
+                        <li{% if path == uri_for("secure") %} class="active"{% endif %}><a href="{{ uri_for("secure") }}">{{ lang.menu_secure|safe }}</a></li>
+                        {% if not user_id %}
+                        <li{% if path == uri_for("register") %} class="active"{% endif %}><a href="{{ uri_for("register") }}">{{ lang.menu_register|safe }}</a></li>
+                        <li{% if path == uri_for("password-reset") %} class="active"{% endif %}><a href="{{ uri_for("password-reset") }}">{{ lang.menu_fyp|safe }}</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </header>
+            {% endblock %}
+
+        {% if messages|safe %}
+        	{% for message in messages %}
+            <p class="alert alert-{{ message[1]|safe }}">
+                <a class="close" data-dismiss="alert">×</a>
+                {{ message[0]|safe }}
+            </p>
+            {% endfor %}
+        {% endif %}
+            {% block content %}{% endblock %}
+
+            {% block footer %}
+            <footer>
+                Google App Engine Boilerplate is released under the <a href="http://www.gnu.org/licenses/gpl-3.0.html" target="_blank">LGPL</a>
+            </footer>
+            {% endblock %}
+        </div><!-- /content -->
+    </div><!-- /page -->
+
+    <!-- JavaScript at the bottom for fast page loading -->
+    <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/js/libs/jquery-1.7.2.min.js"><\/script>')</script>
+    <script src="/js/libs/bootstrap.min.js"></script>
+
+    <!-- scripts concatenated and minified via build script -->
+    <script src="/js/plugins.js"></script>
+    <script src="/js/script.js"></script>
+    {% block mediaJS %}{% endblock %}
+    <!-- end scripts -->
+</body>
+</html>
