@@ -1,11 +1,15 @@
 # boilerplate server config for google app engine
 # from darktable aka Calvin Rien
 # http://forrst.com/posts/Host_a_Static_HTML_Site_on_Google_App_Engine-BlA
-# 
+#
+# If you're looking for more than just server config and need a functional
+# complete application to use as the basis for your app checkout
+# https://github.com/coto/gae-boilerplate
+#
 # Note: file names are case-sensitive and spaces in paths is not supported.
 
 application: your-app-name-here
-version: 1 
+version: 1
 runtime: python
 api_version: 1
 
@@ -188,7 +192,7 @@ handlers:
 # audio files
 - url: /(.*\.(mid|midi|mp3|wav))
   static_files: static/\1
-  upload: static/(.*\.(mid|midi|mp3|wav))  
+  upload: static/(.*\.(mid|midi|mp3|wav))
 
 # windows files
 - url: /(.*\.(doc|exe|ppt|rtf|xls))
@@ -209,12 +213,12 @@ handlers:
 #   static_files: static/\1/index.html
 #   upload: static/(.*)/index.html
 #   expiration: "15m"
-# 
+#
 # # site root
 # - url: /
 #   static_files: static/index.html
 #   upload: static/index.html
 #   expiration: "15m"
-  
+
 - url: /.*
   script: gae.py
