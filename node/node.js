@@ -134,23 +134,46 @@ h5bp.setContentType = function (mime) {
 //    mime module [optional]
 
 h5bp.server = function (serverConstructor, options) {
-   return serverConstructor.createServer(
-      serverConstructor.logger('dev'),
-      this.suppressWww(true),
-      this.protectDotfiles(),
-      this.blockBackupFiles(),
-      this.crossDomainRules(),
-      this.ieEdgeChromeFrameHeader(),
-      //this.expireHeaders(options.maxAge),
-      //this.removeEtag(),
-      //this.setContentType(require('mime')),
-      //serverConstructor.compress(), // express doesn't seem to expose this middleware
-      serverConstructor['static'](options.root, { maxAge: options.maxAge }), // static is a reserved
-      serverConstructor.favicon(options.root, { maxAge: options.maxAge }),
-      serverConstructor.errorHandler({
-         stack: true,
-         message: true,
-         dump: true
-      })
-   );
+   var server = serverConstructor.createServer(),
+       stack = [
+         this.suppressWww(true),
+         this.protectDotfiles(),
+         this.blockBackupFiles(),
+         this.crossDomainRules(),
+         this.ieEdgeChromeFrameHeader()
+      //,this.expireHeaders(options.maxAge),
+      // this.removeEtag(),
+      // this.setContentType(require('mime'))
+       ];
+   // express/connect
+   if (server.use) {
+      stack.unshift(serverConstructor.logger('dev'));
+      stack.push(
+         //serverConstructor.compress(), // express doesn't seem to expose this middleware
+         serverConstructor['static'](options.root, { maxAge: options.maxAge }), // static is a reserved
+         serverConstructor.favicon(options.root, { maxAge: options.maxAge }),
+         serverConstructor.errorHandler({
+            stack: true,
+            message: true,
+            dump: true
+         })
+      );
+      for (var i = 0, len = stack.length; i < len; ++i) server.use(stack[i]);
+   } else {
+      server.on('request', function (req, res) {
+         var newStack = stack,
+             func;
+         (function next (err) {
+            if (err) {
+               throw err;
+               return;
+            } else {
+               func = newStack.shift();
+               if (func) func(req, res, next);
+               return;
+            }
+         })();
+      });
+   }
+   return server;
 };
