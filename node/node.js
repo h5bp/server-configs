@@ -143,8 +143,11 @@ h5bp.server = function (serverConstructor, options) {
          this.ieEdgeChromeFrameHeader()
       //,this.expireHeaders(options.maxAge),
       // this.removeEtag(),
-      // this.setContentType(require('mime'))
-       ];
+      // this.setContentType(   serverConstructor.mime        // connect exposes the mime module as connect.mime
+      //                     || serverConstructor.static.mime // both connect.static and express.static expose the mime module
+      //                     || options.mime                  // use the mime module provided by user
+      //                     || require('mime'))              // require mime
+       ]; 
    // express/connect
    if (server.use) {
       stack.unshift(serverConstructor.logger('dev'));
