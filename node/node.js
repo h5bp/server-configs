@@ -74,16 +74,18 @@ h5bp.crossDomainRules = function () {
 // @param suppress = boolean
 h5bp.suppressWww = function (suppress) {
    return function (req, res, next) {
-      var url = req.url;
-      if (suppress && /^www\./.test(url)) {
-         res.statusCode = 302;
-         res.setHeader('Location', url.replace(/^www\./,''));
+      var host = req.headers.host, url = req.url;
+      if (!req.connection.encrypted && suppress && /^www\./.test(host)) {
+        res.statusCode = 301;
+        res.setHeader('Location', '//' + host.replace(/^www\./,'') + url);
+        res.end();
       }
-      if (!suppress && !/^www\./.test(url)) {
-         res.statusCode = 302;
-         res.setHeader('Location', "www."+url);
+      else if (!req.connection.encrypted && !suppress && !/^www\./.test(host)) {
+         res.statusCode = 301;
+         res.setHeader('Location', "//www." + host + url);
+         res.end();
       }
-      next();
+      else next();
    };
 };
 
