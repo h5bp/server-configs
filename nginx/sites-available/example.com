@@ -66,8 +66,8 @@ server {
     add_header Cache-Control "public";
   }
 
-  # Media: images, video, audio, HTC, WebFonts
-  location ~* \.(?:jpg|jpeg|gif|png|ico|gz|svg|svgz|ttf|otf|woff|eot|mp4|ogg|ogv|webm)$ {
+  # Media: images, video, audio, HTC
+  location ~* \.(?:jpg|jpeg|gif|png|ico|gz|svg|svgz|mp4|ogg|ogv|webm)$ {
     expires 1M;
     access_log off;
     add_header Cache-Control "public";
@@ -89,6 +89,13 @@ server {
   # Cross domain webfont access
   location ~* \.(ttf|ttc|otf|eot|woff|font.css)$ {
       add_header "Access-Control-Allow-Origin" "*";
+
+      # Also, set cache rules for webfonts.
+      # Unfortunately we cannot have more than one location block match
+      # https://github.com/h5bp/server-configs/issues/85
+      expires 1M;
+      access_log off;
+      add_header Cache-Control "public";
   }
 
   # Prevent mobile network providers from modifying your site
