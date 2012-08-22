@@ -298,7 +298,7 @@ describe('h5b', function() {
                 it('should be blocked for .' + f, function(done) {
                     helper.request()
                         .get('/.' + f)
-                        .expect(405, done);
+                        .expect(403, done);
                 });
             });
         });
@@ -308,7 +308,7 @@ describe('h5b', function() {
                 it('should be blocked for .' + f, function(done) {
                     helper.request()
                         .get('/.' + f)
-                        .expect(405, done);
+                        .expect(403, done);
                 });
             });
         });
@@ -599,7 +599,7 @@ describe('h5b', function() {
                 it('should be blocked for .' + f, function(done) {
                     helper.request()
                         .get('/.' + f)
-                        .expect(405, done);
+                        .expect(403, done);
                 });
             });
         });
@@ -609,7 +609,7 @@ describe('h5b', function() {
                 it('should be blocked for .' + f, function(done) {
                     helper.request()
                         .get('/.' + f)
-                        .expect(405, done);
+                        .expect(403, done);
                 });
             });
         });
