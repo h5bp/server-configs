@@ -293,7 +293,7 @@ var h5b = module.exports = exports = function(options) {
             // Subversion or Git.
 
             if (/(^|\/)\./.test(url)) {
-                throw 405;  // 405, not allowed
+                throw 403;  // 403, not allowed
             }
 
             // Block access to backup and source files. These files may be left by some
@@ -301,7 +301,7 @@ var h5b = module.exports = exports = function(options) {
             // them.
 
             if (/\.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist)|~/.test(url)) {
-                throw 405;  // 405, not allowed
+                throw 403;  // 403, not allowed
             }
 
             // do we want to advertise what kind of server we're running?
