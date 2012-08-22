@@ -39,6 +39,57 @@ var h5bp = module.exports = exports = function(options) {
 
         try {
 
+	        /**
+	         * Suppress or force the "www." at the beginning of URLs
+	         */
+
+	        // The same content should never be available under two different URLs -
+	        // especially not with and without "www." at the beginning, since this can cause
+	        // SEO problems (duplicate content). That's why you should choose one of the
+	        // alternatives and redirect the other one.
+
+	        // By default option 1 (no "www.") is activated.
+	        // no-www.org/faq.php?q=class_b
+
+	        // If you'd prefer to use option 2, just comment out all option 1 lines
+	        // and uncomment option 2.
+
+	        // IMPORTANT: NEVER USE BOTH RULES AT THE SAME TIME!
+
+	        // ----------------------------------------------------------------------
+
+	        // Option 1:
+	        // Rewrite "www.example.com -> example.com".
+
+	        if (false === options.www && !req.connection.encrypted && /^www\./.test(host)) {
+		        res.statusCode = 301;
+		        res.setHeader('location', '//' + host.replace(/^www\./, '') + url);
+
+		        if ('http' == options.server) throw 301;
+		        else {
+			        res.end();
+			        return;
+		        }
+	        }
+
+	        // ----------------------------------------------------------------------
+
+	        // Option 2:
+	        // Rewrite "example.com -> www.example.com".
+	        // Be aware that the following rule might not be a good idea if you use "real"
+	        // subdomains for certain parts of your website.
+
+	        if (true === options.www && !req.connection.encrypted && !/^www\./.test(host)) {
+		        res.statusCode = 301;
+		        res.setHeader('location', '//www.' + host.replace(/^www\./, '') + url);
+
+		        if ('http' == options.server) throw 301;
+		        else {
+			        res.end();
+			        return;
+		        }
+	        }
+
             /**
              * Proper MIME type for all files
              */
@@ -219,57 +270,6 @@ var h5bp = module.exports = exports = function(options) {
             // If needed, specify a path or regex in the Location directive.
 
             // TODO
-
-            /**
-             * Suppress or force the "www." at the beginning of URLs
-             */
-
-            // The same content should never be available under two different URLs -
-            // especially not with and without "www." at the beginning, since this can cause
-            // SEO problems (duplicate content). That's why you should choose one of the
-            // alternatives and redirect the other one.
-
-            // By default option 1 (no "www.") is activated.
-            // no-www.org/faq.php?q=class_b
-
-            // If you'd prefer to use option 2, just comment out all option 1 lines
-            // and uncomment option 2.
-
-            // IMPORTANT: NEVER USE BOTH RULES AT THE SAME TIME!
-
-            // ----------------------------------------------------------------------
-
-            // Option 1:
-            // Rewrite "www.example.com -> example.com".
-
-            if (false === options.www && !req.connection.encrypted && /^www\./.test(host)) {
-                res.statusCode = 301;
-                res.setHeader('location', '//' + host.replace(/^www\./, '') + url);
-
-                if ('http' == options.server) throw 301;
-                else {
-                    res.end();
-                    return;
-                }
-            }
-
-            // ----------------------------------------------------------------------
-
-            // Option 2:
-            // Rewrite "example.com -> www.example.com".
-            // Be aware that the following rule might not be a good idea if you use "real"
-            // subdomains for certain parts of your website.
-
-            if (true === options.www && !req.connection.encrypted && !/^www\./.test(host)) {
-                res.statusCode = 301;
-                res.setHeader('location', '//www.' + host.replace(/^www\./, '') + url);
-
-                if ('http' == options.server) throw 301;
-                else {
-                    res.end();
-                    return;
-                }
-            }
 
             /**
              * Built-in filename-based cache busting
