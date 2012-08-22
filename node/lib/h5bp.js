@@ -19,16 +19,16 @@ const ONE_MONTH = ONE_WEEK * 4;
 const ONE_YEAR = ONE_MONTH * 12;
 
 /**
- * configures h5b middleware
+ * configures h5bp middleware
  *
  * @type {Function}
  */
-var h5b = module.exports = exports = function(options) {
+var h5bp = module.exports = exports = function(options) {
     options = options || {};
     options.server = options.server || 'express';
 
     /**
-     * the actual h5b middleware, invoked for each request hit
+     * the actual h5bp middleware, invoked for each request hit
      */
     return function(req, res, next) {
         var url = req.url,
@@ -293,7 +293,7 @@ var h5b = module.exports = exports = function(options) {
             // Subversion or Git.
 
             if (/(^|\/)\./.test(url)) {
-                throw 403;  // 403, not allowed
+                throw 403;  // 403, forbidden
             }
 
             // Block access to backup and source files. These files may be left by some
@@ -301,7 +301,7 @@ var h5b = module.exports = exports = function(options) {
             // them.
 
             if (/\.(bak|config|sql|fla|psd|ini|log|sh|inc|swp|dist)|~/.test(url)) {
-                throw 403;  // 403, not allowed
+                throw 403;  // 403, forbidden
             }
 
             // do we want to advertise what kind of server we're running?
@@ -325,9 +325,9 @@ var h5b = module.exports = exports = function(options) {
  * @param options
  *
  * @param options.server (express|connect|http) [express]
- * Let H5B create the server and configure it properly.
- * For express/connect, H5B set up a default stack of middlewares which can be customized with other option arguments.
- * For http, H5B just create the server to be up and ready, without additional features.
+ * Let H5BP create the server and configure it properly.
+ * For express/connect, H5BP set up a default stack of middlewares which can be customized with other option arguments.
+ * For http, H5BP just create the server to be up and ready, without additional features.
  *
  * @param options.cors true or false [false]
  * Enabled CORS for everything.
@@ -339,15 +339,15 @@ var h5b = module.exports = exports = function(options) {
  * Adds and configures static and favicon middlewares to serve static files.
  *
  * @param options.logger true, false or logger options [false]
- * Adds and configures a logger middleware on H5B one.
+ * Adds and configures a logger middleware on H5BP one.
  *
  */
-h5b.createServer = function(options, callback) {
+h5bp.createServer = function(options, callback) {
     var app;
 
     // express/connect
     if (/(express|connect)/.test(options.server)) {
-        var middlewares = [h5b(options)];
+        var middlewares = [h5bp(options)];
         app = require(options.server)();
 
         if (true === options.logger || 'object' == typeof options.logger) {
@@ -362,7 +362,7 @@ h5b.createServer = function(options, callback) {
     }
     // http
     else {
-        var middleware = h5b(options);
+        var middleware = h5bp(options);
         app = require('http').createServer(function(req, res) {
             try {
                 middleware(req, res);
@@ -385,7 +385,7 @@ h5b.createServer = function(options, callback) {
  * exposed here for extension or any useful purpose.
  * @type {Object}
  */
-h5b.mimeTypes = {
+h5bp.mimeTypes = {
     'js': 'application/javascript',
     'jsonp': 'application/javascript',
     'json': 'application/json',
@@ -442,13 +442,13 @@ h5b.mimeTypes = {
 /**
  * mime replacement
  *
- * types from h5b .htaccess
+ * types from h5bp .htaccess
  * https://github.com/broofa/node-mime
  */
 var mime = {
     lookup: function (path) {
         var ext = path.replace(/.*[\.\/]/, '').toLowerCase();
-        return h5b.mimeTypes[ext] || 'text/plain';
+        return h5bp.mimeTypes[ext] || 'text/plain';
     }
 };
 

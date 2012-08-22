@@ -1,7 +1,7 @@
 // prevent express for dumping error in test output
 process.env.NODE_ENV = 'test';
 
-var h5b = require('../lib/h5b');
+var h5bp = require('../lib/h5bp');
 var express = require('express');
 require('chai').should();
 var request = require('supertest');
@@ -22,7 +22,7 @@ const MEDIA = IMAGE.concat(VIDEO.concat(AUDIO));
 const DATA = 'appcache manifest html htm xml rdf json';
 const ALL = [].concat(HTML, IMAGE, ICON, VIDEO, AUDIO, FONT, RSS);
 
-describe('h5b', function() {
+describe('h5bp', function() {
     describe('with express/connect', function() {
         before(function() {
             helper.stop();
@@ -31,12 +31,12 @@ describe('h5b', function() {
         });
 
         describe ('proper MIME type for all files', function() {
-            var ext = Object.keys(h5b.mimeTypes);
+            var ext = Object.keys(h5bp.mimeTypes);
             ext.forEach(function(e) {
                 it('should be set for .' + e, function(done) {
                     helper.request()
                         .get('/test.' + e)
-                        .expect('Content-Type', h5b.mimeTypes[e])
+                        .expect('Content-Type', h5bp.mimeTypes[e])
                         .expect(200, done);
                 });
             });
@@ -332,12 +332,12 @@ describe('h5b', function() {
         });
 
         describe ('proper MIME type for all files', function() {
-            var ext = Object.keys(h5b.mimeTypes);
+            var ext = Object.keys(h5bp.mimeTypes);
             ext.forEach(function(e) {
                 it('should be set for .' + e, function(done) {
                     helper.request()
                         .get('/test.' + e)
-                        .expect('Content-Type', h5b.mimeTypes[e])
+                        .expect('Content-Type', h5bp.mimeTypes[e])
                         .expect(200, done);
                 });
             });
@@ -637,7 +637,7 @@ describe('h5b', function() {
         });
 
         it('should create an express server', function(done) {
-            var app = h5b.createServer({ server: 'express' });
+            var app = h5bp.createServer({ server: 'express' });
             app.get('/', function(req, res) { res.end('ok'); });
             server = app.listen(8080);
             request(server)
@@ -646,7 +646,7 @@ describe('h5b', function() {
         });
 
         it('should create a connect server', function(done) {
-            var app = h5b.createServer({ server: 'connect' });
+            var app = h5bp.createServer({ server: 'connect' });
             app.use(function(req, res) { res.end('ok'); });
             server = app.listen(8080);
             request(server)
@@ -655,7 +655,7 @@ describe('h5b', function() {
         });
 
         it('should create a basic http server', function(done) {
-            var app = h5b.createServer({ server: 'http' }, function(req, res) { res.end('ok'); });
+            var app = h5bp.createServer({ server: 'http' }, function(req, res) { res.end('ok'); });
             server = app.listen(8080);
             request(server)
                 .get('/')
@@ -671,7 +671,7 @@ var helper = {
     create: function(options) {
         options = options || {};
         if ('http' == options.server) {
-            var middleware = h5b(options);
+            var middleware = h5bp(options);
             this.app = require('http').createServer(function(req, res) {
                 try {
                     middleware(req, res);
@@ -698,7 +698,7 @@ var helper = {
         }
         else {
             this.app = express();
-            this.app.use(h5b(options));
+            this.app.use(h5bp(options));
             this.app.use(express.static(__dirname + '/fixtures'));
             this.app.use(express.errorHandler());
         }
