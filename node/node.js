@@ -61,7 +61,7 @@ h5bp.removePoweredBy = function () {
    };
 };
 
-// Enable CORS cross domain rules, more info at http://enble-cors.org/
+// Enable CORS cross domain rules, more info at http://enable-cors.org/
 h5bp.crossDomainRules = function () {
    return function (req, res, next) {
       res.setHeader('Access-Control-Allow-Origin', '*');
