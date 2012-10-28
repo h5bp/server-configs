@@ -93,11 +93,6 @@
     //
     // @type {Function}
     //
-    // @options {Object}
-    //
-    // {
-    //      www: 'supress|enforce'
-    // }
     h5bp = function (options) {
         options = options || {};
         options.server = options.server || 'express';
@@ -122,11 +117,10 @@
                 // SEO problems (duplicate content). That's why you should choose one of the
                 // alternatives and redirect the other one.
                 // by default with don't change anything, opts.www needs to be set
-
                 if (!isEncrypted) {
+
                     // Option 1:
                     // Rewrite "www.example.com -> example.com".
-
                     if (options.www === 'supress' && reDubDubDub.test(host)) {
                         res.statusCode = 301;
                         res.setHeader('location', '//' + host.replace(/^www\./, '') + url);
@@ -135,13 +129,12 @@
                     // Rewrite "example.com -> www.example.com".
                     // Be aware that the following rule might not be a good idea if you use "real"
                     // subdomains for certain parts of your website.
-
                     } else if (options.www === 'enforce' && !reDubDubDub.test(host)) {
                         res.statusCode = 301;
                         res.setHeader('location', '//www.' + host + url);
                     }
 
-                    if ('http' === options.server) {
+                    if (options.www && 'http' === options.server) {
                         throw 301;
                     } else {
                         res.end();
@@ -165,17 +158,16 @@
                 // enable-cors.org
                 // code.google.com/p/html5security/wiki/CrossOriginRequestSecurity
                 if (options.cors) {
-                    res.setHeader('Access-Control-Allow-Origin', '*');
+                    res.setHeader('Access-Control-Allow-Origin', '//' + host);
                 }
 
                 // CORS-enabled images (@crossorigin)
-                // Send CORS headers if browsers request them; enabled by default for images.
                 // developer.mozilla.org/en/CORS_Enabled_Image
                 // blog.chromium.org/2011/07/using-cross-domain-images-in-webgl-and.html
                 // hacks.mozilla.org/2011/11/using-cors-to-load-webgl-textures-from-cross-domain-images/
                 // wiki.mozilla.org/Security/Reviews/crossoriginAttribute
                 if (/image/.test(type)) {
-                    res.setHeader('Access-Control-Allow-Origin', '*');
+                    res.setHeader('Access-Control-Allow-Origin', '//' + host);
                 }
 
                 // Webfont access
@@ -184,7 +176,7 @@
                 // subdomains like "subdomain.example.com".
                 // @TODO: mime type parsing?
                 if (/\.(ttf|ttc|otf|eot|woff|font\.css)$/.test(url)) {
-                    res.setHeader('Access-Control-Allow-Origin', '*');
+                    res.setHeader('Access-Control-Allow-Origin', '//' + host);
                 }
 
                 // Allow concatenation from within specific js and css files
