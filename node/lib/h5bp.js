@@ -184,6 +184,7 @@
 
                 // Gzip compression
                 // @TODO: we should be able to use the node gzip native bindings.
+                if (options.compress) {}
 
                 // Expires headers (for better cache control)
                 // These are pretty far-future expires headers.
@@ -322,6 +323,10 @@
         if (/(express|connect)/.test(options.server)) {
             middlewares = [h5bp(options)];
             app = require(options.server)();
+
+            if (options.compress) {
+                middlewares.unshift(app.compress);
+            }
 
             if (true === options.logger || 'object' === typeof options.logger) {
                 middlewares.unshift(app.logger(options.logger));
