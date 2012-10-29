@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/h5bp/server-configs.png)](http://travis-ci.org/h5bp/server-configs)
 
 # [HTML5 Boilerplate](http://html5boilerplate.com) Server Configs
 
