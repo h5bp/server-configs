@@ -195,72 +195,71 @@
                 // Gzip compression
                 // Based on Connect's compress() middleware
                 if (options.compress) {
-                    (function (options) {
-                        var accept = req.headers['accept-encoding'],
-                            write = res.write,
-                            end = res.end,
-                            stream,
-                            method;
+                    var keys = Object.keys(exports.methods), 
+                        accept = req.headers['accept-encoding'],
+                        write = res.write,
+                        end = res.end,
+                        stream,
+                        method;
+                        
+                    // vary
+                    res.setHeader('Vary', 'Accept-Encoding');
 
-                        if (!accept) { return; }
+                    // proxy
+                    res.write = function(chunk, encoding) {
+                        if (!this.headerSent) this._implicitHeader();
+                        return stream ? stream.write(new Buffer(chunk, encoding)) : write.call(res, chunk, encoding);
+                    };
+                    res.end = function(chunk, encoding) {
+                        if (chunk) this.write(chunk, encoding);
+                        return stream ? stream.end() : end.call(res);
+                    };
+
+                    res.on('header', function() {
+                        var encoding = res.getHeader('Content-Encoding') || 'identity';
+                    
+                        // already encoded
+                        if ('identity' != encoding) return; 
+                    
+                        // default request filter
+                        if (!filter(req, res)) return;
+                    
+                        // head
+                        if ('HEAD' == req.method) return;
+                            
+                        if (!accept) return;
 
                         // compression method
                         // default to gzip
                         if ('*' == accept.trim()) method = 'gzip';
-                        if (!method) {
-                            for (var i = 0, len = names.length; i < len; ++i) {
-                                if (~accept.indexOf(names[i])) {
-                                    method = names[i];
+                        else if (!method) {
+                            for (var i = 0, len = keys.length; i < len; ++i) {
+                                if (~accept.indexOf(keys[i])) {
+                                    method = keys[i];
                                     break;
                                 }
                             }
                         }
                         if (!method) return;
-
-                        // vary
-                        res.setHeader('Vary', 'Accept-Encoding');
-
-                        // proxy
-                        res.write = function(chunk, encoding){
-                            if (!this.headerSent) this._implicitHeader();
-                            return stream ? stream.write(new Buffer(chunk, encoding)) : write.call(res, chunk, encoding);
-                        };
-                        res.end = function(chunk, encoding){
-                            if (chunk) this.write(chunk, encoding);
-                            return stream ? stream.end() : end.call(res);
-                        };
-
-                        res.on('header', function(){
-                            var encoding = res.getHeader('Content-Encoding') || 'identity';
                     
-                            // already encoded
-                            if ('identity' != encoding) return; 
+                        // compression stream
+                        stream = methods[method](options);
                     
-                            // default request filter
-                            if (!filter(req, res)) return;
+                        // header fields
+                        res.setHeader('Content-Encoding', method);
+                        res.removeHeader('Content-Length');
                     
-                            // head
-                            if ('HEAD' == req.method) return;
-                    
-                            // compression stream
-                            stream = methods[method](options);
-                    
-                            // header fields
-                            res.setHeader('Content-Encoding', method);
-                            res.removeHeader('Content-Length');
-                    
-                            // compression
-                            stream.on('data', function(chunk){
-                                write.call(res, chunk);
-                            });
-                            stream.on('end', function(){
-                                end.call(res);
-                            });
-                            stream.on('drain', function() {
-                                res.emit('drain');
-                            });
-
-                    })(opts.compress);
+                        // compression
+                        stream.on('data', function(chunk) {
+                            write.call(res, chunk);
+                        });
+                        stream.on('end', function() {
+                            end.call(res);
+                        });
+                        stream.on('drain', function() {
+                            res.emit('drain');
+                        });
+                    })
                 }
 
                 // Expires headers (for better cache control)
