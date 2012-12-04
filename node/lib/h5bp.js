@@ -3,7 +3,7 @@
 // h5bp server-configs project
 //
 // maintainer: @xonecas
-// contributors: @niftylettuce, @ngryman
+// contributors: @niftylettuce, @ngryman, @d10
 //
 
 (function () {
@@ -26,8 +26,9 @@
             deflate: zlib.createDeflate
         },
         filter = function(req, res){
-            return /json|text|javascript/.test(res.getHeader('Content-Type'));
-        };
+            return /json|text|javascript|xml/.test(res.getHeader('Content-Type'));
+        },
+        names = Object.keys(methods);
 
     // default mime types associations.
     // exposed here for extension or any useful purpose.
@@ -54,7 +55,6 @@
         'ttc': 'application/x-font-ttf',
         'otf': 'font/opentype',
         'woff': 'application/x-font-woff',
-        'ico': 'image/x-icon',
         'webp': 'image/webp',
         'appcache': 'text/cache-manifest',
         'manifest': 'text/cache-manifest',
@@ -215,7 +215,13 @@
                                 }
                             }
                         }
-                        if (!method) return;
+                        if (!method) { return; }
+                    
+                        // default request filter
+                        if (!filter(req, res)) return;
+                    
+                        // head
+                        if ('HEAD' == req.method) return;
 
                         // vary
                         res.setHeader('Vary', 'Accept-Encoding');
@@ -236,12 +242,6 @@
                             // already encoded
                             if ('identity' != encoding) return; 
                     
-                            // default request filter
-                            if (!filter(req, res)) return;
-                    
-                            // head
-                            if ('HEAD' == req.method) return;
-                    
                             // compression stream
                             stream = methods[method](options);
                     
@@ -259,6 +259,7 @@
                             stream.on('drain', function() {
                                 res.emit('drain');
                             });
+                        });
 
                     })(opts.compress);
                 }
@@ -401,10 +402,6 @@
             middlewares = [h5bp(options)];
             app = require(options.server)();
 
-            if (options.compress) {
-                middlewares.unshift(app.compress);
-            }
-
             if (true === options.logger || 'object' === typeof options.logger) {
                 middlewares.unshift(app.logger(options.logger));
             }
@@ -452,11 +449,10 @@
      * Module dependencies.
      */
 
-    var http = require('http')
-        , res = http.ServerResponse.prototype
-        , setHeader = res.setHeader
-        , _renderHeaders = res._renderHeaders
-        , writeHead = res.writeHead;
+    var res = http.ServerResponse.prototype,
+        setHeader = res.setHeader,
+        _renderHeaders = res._renderHeaders,
+        writeHead = res.writeHead;
 
     // apply only once
 
