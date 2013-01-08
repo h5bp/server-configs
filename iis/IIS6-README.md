@@ -111,7 +111,7 @@ alternatively you can see it here: https://gist.github.com/2136507)
 
 Note: Never set the compression value to `10`; though this might seem a
 sensible thing to do the CPU load increase per-request is quite large, whilst
-the actual compression difference is negligble.
+the actual compression difference is negligible.
 
 
 ## 2. Adding/Removing Headers
@@ -127,7 +127,7 @@ HttpHeaders tab, add Custom Http Header called ETag but leave the value blank.
 Using the method above you can add any header; here are a few other common ones
 that are in the web.config of H5BP project configs.
 
-For readability I'll seperate the KEY from the VALUE using a COLON (e.g. KEY :
+For readability I'll separate the KEY from the VALUE using a COLON (e.g. KEY :
 VALUE).
 
 #### 2.2.1 Access-Control-Allow-Origin
@@ -208,7 +208,7 @@ http://github.com/rails/rails/commit/123eb25#commitcomment-118920
 X-UA-Compatible : IE=Edge,chrome=1
 ```
 
-#### 2.3.3 P3P (handy when your usign Facebook API/Connect)
+#### 2.3.3 P3P (handy when your using Facebook API/Connect)
 
 Allow cookies to be set from iframes (for IE only)
 
