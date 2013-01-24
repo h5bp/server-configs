@@ -169,7 +169,7 @@ handlers:
   upload: static/(.*\.webp)
 
 - url: /(.*\.woff)
-  mime_type: application/x-font-woff
+  mime_type: application/font-woff
   static_files: static/\1
   upload: static/(.*\.woff)
 
