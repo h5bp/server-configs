@@ -126,7 +126,7 @@ Required for SVG Webfonts on iPad.
 <remove fileExtension=".eot" />
 <mimeMap fileExtension=".eot" mimeType="application/vnd.ms-fontobject" />
 <mimeMap fileExtension=".otf" mimeType="font/otf" />
-<mimeMap fileExtension=".woff" mimeType="application/x-font-woff" />
+<mimeMap fileExtension=".woff" mimeType="application/font-woff" />
 ```
 
 Remove default IIS mime type for `.eot` which is `application/octet-stream`.
