@@ -108,7 +108,7 @@
   AddType application/font-woff                 woff
   AddType application/vnd.ms-fontobject         eot
   AddType application/x-font-ttf                ttf ttc
-  AddType font/opentype                         otf
+  AddType application/x-font-opentype           otf
 
   # Assorted types
   AddType application/octet-stream              safariextz
@@ -179,9 +179,9 @@
                                   application/rss+xml \
                                   application/vnd.ms-fontobject \
                                   application/x-font-ttf \
+                                  application/x-font-opentype \
                                   application/xhtml+xml \
                                   application/xml \
-                                  font/opentype \
                                   image/svg+xml \
                                   image/x-icon \
                                   text/css \
@@ -246,7 +246,7 @@
   ExpiresByType application/font-woff     "access plus 1 month"
   ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
   ExpiresByType application/x-font-ttf    "access plus 1 month"
-  ExpiresByType font/opentype             "access plus 1 month"
+  ExpiresByType application/x-font-opentype "access plus 1 month"
   ExpiresByType image/svg+xml             "access plus 1 month"
 
 # CSS and JavaScript
