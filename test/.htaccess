@@ -112,7 +112,7 @@ AddEncoding gzip                       svgz
 AddType application/font-woff          woff
 AddType application/vnd.ms-fontobject  eot
 AddType application/x-font-ttf         ttf ttc
-AddType application/x-font-opentype    otf
+AddType font/opentype                  otf
 
 # Assorted types
 AddType image/x-icon                        ico
@@ -186,7 +186,7 @@ AddType text/x-vcard                        vcf
     FilterProvider  COMPRESS  DEFLATE resp=Content-Type $image/svg+xml
     FilterProvider  COMPRESS  DEFLATE resp=Content-Type $image/x-icon
     FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/x-font-ttf
-    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $application/x-font-opentype
+    FilterProvider  COMPRESS  DEFLATE resp=Content-Type $font/opentype
     FilterChain     COMPRESS
     FilterProtocol  COMPRESS  DEFLATE change=yes;byteranges=no
   </IfModule>
@@ -197,7 +197,7 @@ AddType text/x-vcard                        vcf
     AddOutputFilterByType DEFLATE application/javascript
     AddOutputFilterByType DEFLATE text/xml application/xml text/x-component
     AddOutputFilterByType DEFLATE application/xhtml+xml application/rss+xml application/atom+xml
-    AddOutputFilterByType DEFLATE image/x-icon image/svg+xml application/vnd.ms-fontobject application/x-font-ttf application/x-font-opentype
+    AddOutputFilterByType DEFLATE image/x-icon image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype
   </IfModule>
 
 </IfModule>
@@ -256,7 +256,7 @@ AddType text/x-vcard                        vcf
 # Webfonts
   ExpiresByType application/font-woff     "access plus 1 month"
   ExpiresByType application/x-font-ttf    "access plus 1 month"
-  ExpiresByType application/x-font-opentype "access plus 1 month"
+  ExpiresByType font/opentype             "access plus 1 month"
   ExpiresByType image/svg+xml             "access plus 1 month"
   ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
 

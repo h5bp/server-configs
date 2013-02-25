@@ -118,7 +118,7 @@ handlers:
   upload: static/(.*\.ogv)
 
 - url: /(.*\.otf)
-  mime_type: application/x-font-opentype
+  mime_type: font/opentype
   static_files: static/\1
   upload: static/(.*\.otf)
 
