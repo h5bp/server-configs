@@ -86,7 +86,7 @@ types {
   application/font-woff                 woff;
   application/vnd.ms-fontobject         eot;
   application/x-font-ttf                ttf ttc;
-  application/x-font-opentype           otf;
+  font/opentype                         otf; # not a valid IANA type but required for Google Chrome
 
   # Microsoft Office
   application/msword                                                         doc;
