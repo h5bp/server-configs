@@ -10,7 +10,7 @@ class IndexHandler(webapp.RequestHandler):
 
         self.response.headers.add_header('X-UA-Compatible', 'IE=Edge,chrome=1')
         self.redirect(path)
-        
+
 
     def post(self):
         self.get()

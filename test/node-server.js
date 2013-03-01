@@ -1,6 +1,6 @@
 var express = require('express'),
    h5bp     = require('../node/lib/h5b.js'),
-   server   = h5bp.server(express, { 
+   server   = h5bp.server(express, {
       root: __dirname,
       maxAge: 1000 * 60 * 60 * 30
    });
