@@ -85,7 +85,7 @@ mode
 <remove fileExtension=".css" />
 <mimeMap fileExtension=".css" mimeType="text/css" />
 <remove fileExtension=".js" />
-<mimeMap fileExtension=".js" mimeType="application/javascript" />
+<mimeMap fileExtension=".js" mimeType="text/javascript" />
 <remove fileExtension=".json" />
 <mimeMap fileExtension=".json" mimeType="application/json" />
 <remove fileExtension=".rss" />
