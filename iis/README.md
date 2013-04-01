@@ -125,7 +125,7 @@ Required for SVG Webfonts on iPad.
 ```xml
 <remove fileExtension=".eot" />
 <mimeMap fileExtension=".eot" mimeType="application/vnd.ms-fontobject" />
-<mimeMap fileExtension=".otf" mimeType="font/otf" />
+<mimeMap fileExtension=".otf" mimeType="font/opentype" />
 <mimeMap fileExtension=".woff" mimeType="application/font-woff" />
 ```
 
