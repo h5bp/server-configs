@@ -540,5 +540,5 @@ FileETag None
 # possible disadvantages!
 
 # <IfModule mod_headers.c>
-#    Header set Connection Keep-Alive
+#    Header set Connection Keep-Alive env=!nokeepalive
 # </IfModule>
