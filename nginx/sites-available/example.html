@@ -14,8 +14,8 @@ server {
     # Document root
     root /var/www/example.com;
 
-    # Try static files first, then php
-    index index.html index.htm index.php;
+    # Try static files first
+    index index.html index.htm;
 
     # Specific logs for this vhost
     access_log /var/log/nginx/example.com-access.log;
@@ -32,7 +32,7 @@ server {
 
     # Redirect needed to "hide" index.php
     location / {
-            try_files $uri $uri/ /index.php?q=$uri&$args;
+            try_files $uri $uri/;
     }
 
     # Don't log robots.txt or favicon.ico files
@@ -40,18 +40,6 @@ server {
     location = /robots.txt  { access_log off; log_not_found off; }
 
     # 404 errors handled by our application, for instance Laravel or CodeIgniter
-    error_page 404 /index.php;
-
-    # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
-    location ~ \.php$ {
-            fastcgi_split_path_info ^(.+\.php)(/.+)$;
-
-            # With php5-cgi alone:
-            # fastcgi_pass 127.0.0.1:9000;
-            # With php5-fpm:
-            fastcgi_pass unix:/var/run/php5-fpm.sock;
-            fastcgi_index index.php;
-            include fastcgi_params;
-    }
+    error_page 404 /error404.html;
 
 }
