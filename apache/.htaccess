@@ -335,17 +335,19 @@ AddDefaultCharset utf-8
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-# Force client-side SSL redirection.
+# Force client-side SSL redirection (HSTS).
 
 # If a user types "example.com" in his browser, the above rule will redirect him
 # to the secure version of the site. That still leaves a window of opportunity
 # (the initial HTTP connection) for an attacker to downgrade or redirect the
 # request. The following header ensures that browser will ONLY connect to your
 # server via HTTPS, regardless of what the users type in the address bar.
+# Remove the `includeSubDomains` setting if subdomains are not secured by HTTPS.
 # http://www.html5rocks.com/en/tutorials/security/transport-layer-security/
+# http://tools.ietf.org/html/draft-ietf-websec-strict-transport-sec-14#section-6.1
 
 # <IfModule mod_headers.c>
-#    Header set Strict-Transport-Security max-age=16070400;
+#    Header set Strict-Transport-Security "max-age=16070400; includeSubDomains"
 # </IfModule>
 
 # ------------------------------------------------------------------------------
