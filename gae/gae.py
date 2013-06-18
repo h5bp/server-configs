@@ -9,7 +9,7 @@ class IndexHandler(webapp.RequestHandler):
         else:
             path = '%s/index.html'%self.request.url
 
-        self.response.headers.add_header('X-UA-Compatible', 'IE=edge,chrome=1')
+        self.response.headers.add_header('X-UA-Compatible', 'IE=edge')
         self.redirect(path)
 
     def post(self):

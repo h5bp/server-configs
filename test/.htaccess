@@ -22,10 +22,9 @@
 
 # Force the latest IE version, in various cases when it may fall back to IE7 mode
 #  github.com/rails/rails/commit/123eb25#commitcomment-118920
-# Use ChromeFrame if it's installed for a better experience for the poor IE folk
 
 <IfModule mod_headers.c>
-  Header set X-UA-Compatible "IE=Edge,chrome=1"
+  Header set X-UA-Compatible "IE=Edge"
   # mod_headers can't match by content-type, but we don't want to send this header on *everything*...
   <FilesMatch "\.(js|css|gif|png|jpe?g|pdf|xml|oga|ogg|m4a|ogv|mp4|m4v|webm|svg|svgz|eot|ttf|otf|woff|ico|webp|appcache|manifest|htc|crx|oex|xpi|safariextz|vcf)$" >
     Header unset X-UA-Compatible
