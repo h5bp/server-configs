@@ -72,7 +72,7 @@ served to show customized error message.
 **5. Force the latest IE version**
 
 ```xml
-<add name="X-UA-Compatible" value="IE=Edge,chrome=1" />
+<add name="X-UA-Compatible" value="IE=Edge" />
 ```
 
 Force the latest IE version, in various cases when it may fall back to IE7
