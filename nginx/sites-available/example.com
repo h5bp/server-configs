@@ -14,9 +14,7 @@ server {
 }
 
 server {
-  # listen 80 default_server deferred; # for Linux
-  # listen 80 default_server accept_filter=httpready; # for FreeBSD
-  listen 80 default_server;
+  listen 80;
 
   # The host name to respond to
   server_name example.com;
@@ -32,4 +30,16 @@ server {
 
   # Include the component config parts for h5bp
   include conf/h5bp.conf;
+}
+
+# Block requests to unknown host names to prevent potential `Host` header poisoning
+# http://www.skeletonscribe.net/2013/05/practical-http-host-header-attacks.html
+server {
+  # listen 80 default_server deferred; # for Linux
+  # listen 80 default_server accept_filter=httpready; # for FreeBSD
+  listen 80 default_server;
+
+  server_name "";
+
+  return 444;
 }
