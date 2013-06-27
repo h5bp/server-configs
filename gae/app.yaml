@@ -79,7 +79,7 @@ handlers:
   http_headers:
 
     # Better website experience for IE users
-    X-UA-Compatible: "IE=edge,chrome=1"
+    X-UA-Compatible: "IE=edge"
 
     # Content Security Policy (CSP)
     #Content-Security-Policy: "script-src 'self'; object-src 'self'"

@@ -6,7 +6,7 @@
 	"gzip": true,
 	"expires": 0,
 	"headers": {
-		"X-UA-Compatible": "IE=Edge,chrome=1"
+		"X-UA-Compatible": "IE=Edge"
 	},
 	"noheaders": [
 		"ETag"
@@ -71,7 +71,7 @@
 	"gzip": true,
 	"expires": 0,
 	"headers": {
-		"X-UA-Compatible": "IE=Edge,chrome=1"
+		"X-UA-Compatible": "IE=Edge"
 	},
 	"noheaders": [
 		"ETag"
@@ -84,7 +84,7 @@
 	"gzip": true,
 	"expires": 0,
 	"headers": {
-		"X-UA-Compatible": "IE=Edge,chrome=1"
+		"X-UA-Compatible": "IE=Edge"
 	},
 	"noheaders": [
 		"ETag"
@@ -169,7 +169,7 @@
 	"gzip": true,
 	"expires": 0,
 	"headers": {
-		"X-UA-Compatible": "IE=Edge,chrome=1"
+		"X-UA-Compatible": "IE=Edge"
 	},
 	"noheaders": [
 		"ETag"
