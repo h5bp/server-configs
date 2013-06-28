@@ -205,7 +205,7 @@ Force the latest IE version, in various cases when it may fall back to IE7 mode
 http://github.com/rails/rails/commit/123eb25#commitcomment-118920
 
 ```
-X-UA-Compatible : IE=Edge,chrome=1
+X-UA-Compatible : IE=Edge
 ```
 
 #### 2.3.3 P3P (handy when your using Facebook API/Connect)
