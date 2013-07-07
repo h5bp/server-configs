@@ -351,7 +351,7 @@ FileETag None
 # Use Case: http%{ENV:https}://%{SERVER_NAME}%{REQUEST_URI}
 
 RewriteCond %{SERVER_PORT}s ^(443(s)|[0-9]+s)$
-RewriteRule ^(.*)$ - [env=https:%2]
+RewriteRule ^ - [env=https:%2]
 
 # ----------------------------------------------------------------------
 # Prevent fully qualified domain names (trailing "." in HTTP_HOST)
@@ -360,7 +360,7 @@ RewriteRule ^(.*)$ - [env=https:%2]
 # Read more at http://saynt2day.blogspot.ru/2013/03/danger-of-trailing-dot-in-domain-name.html
 
 RewriteCond %{HTTP_HOST} \.$
-RewriteRule ^.*$ http%{ENV:https}://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]
+RewriteRule ^ http%{ENV:https}://%{SERVER_NAME}%{REQUEST_URI} [L,R=301]
 
 # ----------------------------------------------------------------------
 # Suppress or force the "www." at the beginning of URLs
