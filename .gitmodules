@@ -1,3 +1,6 @@
+[submodule "apache"]
+	path = apache
+	url = git@github.com:h5bp/server-configs-apache.git
 [submodule "node"]
 	path = node
 	url = git@github.com:h5bp/node-server-config.git
