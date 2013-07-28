@@ -4,6 +4,9 @@
 [submodule "gae"]
 	path = gae
 	url = git@github.com:h5bp/server-configs-gae.git
+[submodule "iis"]
+	path = iis
+	url = git@github.com:h5bp/server-configs-iis.git
 [submodule "node"]
 	path = node
 	url = git@github.com:h5bp/node-server-config.git
