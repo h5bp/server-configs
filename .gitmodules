@@ -15,4 +15,4 @@
 	url = git@github.com:h5bp/server-configs-nginx.git
 [submodule "node"]
 	path = node
-	url = git@github.com:h5bp/node-server-config.git
+	url = git@github.com:h5bp/server-configs-node.git
