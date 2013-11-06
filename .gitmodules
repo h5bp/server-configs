@@ -1,0 +1,18 @@
+[submodule "apache"]
+	path = apache
+	url = git@github.com:h5bp/server-configs-apache.git
+[submodule "gae"]
+	path = gae
+	url = git@github.com:h5bp/server-configs-gae.git
+[submodule "iis"]
+	path = iis
+	url = git@github.com:h5bp/server-configs-iis.git
+[submodule "lighttpd"]
+	path = lighttpd
+	url = git@github.com:h5bp/server-configs-lighttpd.git
+[submodule "nginx"]
+	path = nginx
+	url = git@github.com:h5bp/server-configs-nginx.git
+[submodule "node"]
+	path = node
+	url = git@github.com:h5bp/server-configs-node.git
