@@ -1,18 +1,24 @@
 [submodule "apache"]
+	ignore = dirty
 	path = apache
 	url = git@github.com:h5bp/server-configs-apache.git
 [submodule "gae"]
+	ignore = dirty
 	path = gae
 	url = git@github.com:h5bp/server-configs-gae.git
 [submodule "iis"]
+	ignore = dirty
 	path = iis
 	url = git@github.com:h5bp/server-configs-iis.git
 [submodule "lighttpd"]
+	ignore = dirty
 	path = lighttpd
 	url = git@github.com:h5bp/server-configs-lighttpd.git
 [submodule "nginx"]
+	ignore = dirty
 	path = nginx
 	url = git@github.com:h5bp/server-configs-nginx.git
 [submodule "node"]
+	ignore = dirty
 	path = node
 	url = git@github.com:h5bp/server-configs-node.git
