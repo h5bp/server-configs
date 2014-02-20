@@ -1,8 +1,0 @@
-
-# ignore all files and folders
-#  doesnt ignore folders with dotfiles though:
-#  https://github.com/isaacs/npm/issues/2144
-*
-
-# include node.js
-!node.js

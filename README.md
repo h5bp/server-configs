@@ -1,13 +1,8 @@
-# [H5BP](http://h5bp.github.com) Server Configs
+# Server Configs
 
-*Best-practice server configurations* to help improve site performance.
-
-* **Apache**
-* **node.js**
-* **IIS 7+**
-* **IIS 6** - see `iis/IIS6-README.md`
-* **nginx**
-* **lighttpd**
-* **Google AppEngine**
-
-Please refer to the README's in each directory for more information.
+* **[Apache](https://github.com/h5bp/server-configs-apache)**
+* **[Google App Engine (GAE)](https://github.com/h5bp/server-configs-gae)**
+* **[Internet Information Services (IIS)](https://github.com/h5bp/server-configs-iis)**
+* **[lighttpd](https://github.com/h5bp/server-configs-lighttpd)**
+* **[Nginx](https://github.com/h5bp/server-configs-nginx)**
+* **[Node.js](https://github.com/h5bp/server-configs-node)**
